@@ -64,6 +64,7 @@ var chartsSum = {
 
                 
                 option = $.extend({},defaultOption1,option); 
+                
                 myline.setOption(option);
             });
 
@@ -122,6 +123,7 @@ var chartsSum = {
                         ]
                     };  
                     
+                    myline = echarts.init(document.getElementById('myline'));
                     option = $.extend({}, defaultOption, option);
                     myline.setOption(option);
                 });

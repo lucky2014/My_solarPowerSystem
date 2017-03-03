@@ -16,7 +16,7 @@ define(function(require, exports, module) {
                 color: '#27bb77',
             },
             subtext: "",
-            padding: [0,0,0,0]
+            padding: [4,0,0,0]
         },
         textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
             fontWeight: 'normal',

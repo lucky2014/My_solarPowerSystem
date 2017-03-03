@@ -367,7 +367,7 @@ define(function(require, exports, module) {
                                 color: '#27bb77',
                             },
                             subtext: "",
-                            padding: [0,0,0,0]
+                            padding: [6,0,0,0]
                         },
                         dataZoom: dataZoom,
                         xAxis : {

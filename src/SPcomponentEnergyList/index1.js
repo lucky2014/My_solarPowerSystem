@@ -366,7 +366,7 @@ var componentApp = {
                             color: '#27bb77',
                         },
                         subtext: "",
-                        padding: [0,0,0,0]
+                        padding: [6,0,0,0]
                     },
                     xAxis : {
                         data : time,

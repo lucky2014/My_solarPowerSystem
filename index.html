@@ -153,7 +153,7 @@
             </div>
             
 
-            <div class="datePickerParent" style="display:none;" id="chartsDatePicker">
+            <div class="datePickerParent" style="display:none;">
                 <label>日期</label>
                 <input id="datePicker2" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
                     onpicking(this)
@@ -186,8 +186,7 @@
     <script type="text/javascript" src="src/common.lib/DES/CryptoJS1.js"></script>
     <script type="text/javascript" src="src/common.lib/MD5/jquery.md51.js"></script>
     <script type="text/javascript" src="src/common.lib/setup/setup1.js"></script>
-    <script type="text/javascript" src="src/SPrealTimeStat/defaultOption1.js"></script>
-    <script type="text/javascript" src="src/SPrealTimeStat/index1.js"></script>
+    <script type="text/javascript" src="src/indexSide/lineChart1.js"></script>
     <script type="text/javascript" src="src/common.lib/sea.js"></script>
     <script type="text/javascript" src="src/common.lib/seajs-text/seajs-text-1.1.1/seajs-text.js"></script>
     <script type="text/javascript" src="src/config.js"></script>
@@ -211,7 +210,7 @@
         }
         var dateType = $(".dateTab dd.on").attr("data-value");
         var stationId = (sessionStorage.getItem("stationId")) ? sessionStorage.getItem("stationId") : $("#defaultStation").attr("stationId");
-        chartsSum.dateTypeChange(dateType, stationId, date);
+        lineApp.getDataValueChange(dateType, stationId, date);
     }
     </script>
 </body>

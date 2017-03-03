@@ -2,13 +2,13 @@ define(function(require, exports, module) {
     var $ = require("jquery");
    	var setup = require("setup");
     	require('src/SPstationInfo/index.css');
-        require('src/SPrealTimeStat/index.css');
+        require('src/SPchartsSum/index.css');
         require("my97DatePicker");
     var echarts = require("echarts");
     var weatherApp = require("src/common.weather/weather"); //天气情况
     var addressApp = require("src/SPaddress/index"); //电站基本详情
 
-    var SPrealTimeStat = require('src/SPrealTimeStat/index'); 
+    var SPchartsSum = require('src/SPstationInfo/chartsSum'); 
 
     //banner滚动
     var bannerSwiper = require("src/common.swiper/swiper"); 
@@ -36,7 +36,7 @@ define(function(require, exports, module) {
             me.getStationDetail(stationId);
 
             //------------------单个电站统计统计---------------------
-            SPrealTimeStat.dateTypeChange(1, stationId);
+            SPchartsSum.dateTypeChange(1, stationId);
 
             //------------------SMU子站列表---------------------
             listStationSmuApp.init(stationId);
@@ -102,7 +102,7 @@ define(function(require, exports, module) {
 
         //最后一个1说明是从日期类型选中，而不是日期插件
         //第3个参数是传递的日期
-        SPrealTimeStat.dateTypeChange(dateType, stationId, "", 1); 
+        SPchartsSum.dateTypeChange(dateType, stationId, "", 1); 
     });
 
     //组件发电详情日期类型点击

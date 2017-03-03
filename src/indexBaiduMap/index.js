@@ -191,6 +191,7 @@ define(function(require,exports,module){
 		}
 	};
 
+	
 	indexApp.readerMap(map);
 	getAllTotal();
 	
@@ -211,6 +212,7 @@ define(function(require,exports,module){
 			$(this).toggleClass("big");
 
 			////地图的高度变化
+			
 			if(vHeight>900){
 				$("#myMap").css({"left":0,top: 0,height:"800px"});
 				$(".mapParent").css("height", vHeight-210);
@@ -221,6 +223,7 @@ define(function(require,exports,module){
 			
 			$(".wrapRight").hide();
 		}
+		//indexApp.readerMap();
 	});
 
 	//点击用户名

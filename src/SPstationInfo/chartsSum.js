@@ -4,7 +4,9 @@ define(function(require, exports, module) {
     var setup = require("setup");
     //单个电站统计
     var echarts = require("echarts");
-    var defaultOption = require("src/SPrealTimeStat/defaultOption");
+    var myline = echarts.init(document.getElementById('myline'));
+    var defaultOption = require("src/SPchartsSum/defaultOption");
+        myline.setOption(defaultOption);
     var formatData = require("src/common.formatData/formatData");
 
     var myDate = new Date();
@@ -41,9 +43,8 @@ define(function(require, exports, module) {
                 $("#chartsDatePicker").hide();
                 var date = date || me.getDate();
                 var params = me.getLineParams(stationId, dateType, date);
-                $("#myline").css("width",$(window).width()*0.37);
-                var myline = echarts.init(document.getElementById('myline'));
                 //请求渲染 
+
                 setup.commonAjax("getChartData", setup.getParams(params), function(msg){
                     var time = [];
                     var data = [];
@@ -97,7 +98,7 @@ define(function(require, exports, module) {
                         ]
                     };  
                     
-                    
+                    myline = echarts.init(document.getElementById('myline'));
                     option = $.extend({}, defaultOption, option);
                     myline.setOption(option);
                 });
@@ -157,6 +158,7 @@ define(function(require, exports, module) {
                             ]
                         };  
                         
+                        myline = echarts.init(document.getElementById('myline'));
                         option = $.extend({}, defaultOption, option);
                         myline.setOption(option);
                     });
@@ -299,7 +301,7 @@ define(function(require, exports, module) {
                     ]
                 };
 
-                var myline = echarts.init(document.getElementById('myline'));
+                myline = echarts.init(document.getElementById('myline'));
                 option = $.extend({}, defaultOption, option);
                 myline.setOption(option);
             });
