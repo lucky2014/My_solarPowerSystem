@@ -1,0 +1,14 @@
+<project default="zip" name="photovoltaic" basedir="."> 
+	
+    <property name="zipname" value="${ant.project.name}.zip"/>
+
+       <delete file="${zipname}"/>
+	
+	<!--文件打包-->
+	<target name="zip">
+	    <zip destfile="${zipname}">
+	         <zipfileset dir="."/>
+	    </zip>
+	</target>
+   
+</project>

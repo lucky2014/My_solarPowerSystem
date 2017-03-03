@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>光伏发电并网系统监控</title>
+</head>
+<body>
+    <!--发电站统计下拉这一行-->
+    <div class="infoWrapHeader">
+        <a class="back" href="index.html"><img src="src/imgs/back.png" /></a>
+        <em></em>
+        <div class="pwsStat"></div>
+    </div>
+    
+    <!--仪表这一行-->
+    <div class="infoWrap" style="margin-top:0;">
+        <div id="powerMeter">
+            <div id="myGaugeInfo" style="width:100%; height:250px;"></div>
+            <div id="myPolarInfo" style="width:100%; height:210px; margin-top:2px;"></div>
+            <div id="refreshTime"></div>
+            <div class="defaultLabel"><span>0%</span><span>100%</span></div>
+            <div class="percentage"></div>
+            <div class="sum">今日发电量：<span id="todayEnergy"></span>&nbsp;&nbsp;&nbsp;&nbsp;今日总收益：<span id="todayIncome"></span></div>
+        </div>
+
+        <ul id="totalSum">
+            <li>
+                <img src="src/imgs/nav1.png" />
+                <span>总发电量<i>单位(<em id="msuEnergyUnit"></em>)</i></span>
+                <h4 id="msuEnergy"></h4>
+            </li>
+            <li>
+                <img src="src/imgs/nav2.png" />
+                <span>预计收益<i>单位(<em id="msuIncomeUnit"></em>)</i></span>
+                <h4 id="msuIncome"></h4>
+            </li>
+            <li>
+                <img src="src/imgs/nav3.png" />
+                <span>总装机容量<i>单位(<em id="msuCapacityUnit"></em>)</i></span>
+                <h4 id="msuCapacity"></h4>
+            </li>
+        </ul>
+
+        <ul id="saveSum">
+            <li class="li0">
+                <img src="src/imgs/co211.png" />
+                <span>CO2减排</span>
+                <h4 id="msuCo2"></h4>
+            </li>
+            <li class="li1">
+                <img src="src/imgs/tree1.png" />
+                <span>植树造林</span>
+                <h4 id="msuAff"></h4>
+            </li>
+            <li class="li2">
+                <img src="src/imgs/speed1.png" />
+                <span>行驶里程</span>
+                <h4 id="msuDistance"></h4>
+            </li>
+            <li class="li3">
+                <img src="src/imgs/fire1.png" />
+                <span>节约标准煤</span>
+                <h4 id="msuSavingCoal"></h4>
+            </li>
+        </ul>
+    </div>
+
+	<div class="infoWrap">
+        <!--实时折线图这一列-->
+        <div class="chartsParent">
+            <div id="myline" style="width:100%; height:340px;"></div>
+
+            <!--日期选择-->
+            <div class="dateTab" id="powerSumTab">
+                <dl>
+                    <dd data-value="1" class="on">实时</dd>
+                    <dd data-value="2">日</dd>
+                    <dd data-value="3">月</dd>
+                    <dd data-value="4">年</dd>
+                    <dd data-value="5">总</dd>
+                </dl>
+            </div>
+
+            <div class="datePickerParent" id="chartsDatePicker" style="display:none; right:5%;">
+                <label>日期</label>
+                <input id="datePicker2" type="text" name="time"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <input id="datePicker3" type="text" name="time" onClick="WdatePicker({dateFmt:'yyyy-MM',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <input id="datePicker4" type="text" name="time" onClick="WdatePicker({dateFmt:'yyyy',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <img id="dateImg" src="src/imgs/date.png" />
+            </div>
+        </div>
+
+        <!--banner这一列-->
+        <div id="swiperInfo"> </div>
+
+        <div class="statDetail">
+            <!--天气预报-->
+            <div class="weather"> </div>
+
+            <div class="addressParent">
+                <p id="stationName">
+                    <img src="src/imgs/a1.png" alt="">
+                    <span class="textLabel2">电站名:</span>
+                    <b class="textSpan2 f12"></b>
+                </p>
+                <p id="msuDay">
+                    <img src="src/imgs/a2.png" alt="">
+                    <span>累计运行天数:</span>
+                    <b></b>
+                </p>
+                <p id="invNum">
+                    <img src="src/imgs/a3.png" alt="">
+                    <span>逆变器数量:</span>
+                    <b></b>
+                </p>
+                <p id="capacityVal">
+                    <img src="src/imgs/a4.png" alt="">
+                    <span> 装机容量:</span>
+                    <b></b>
+                </p>
+                <p id="smuNum" class="baseHide hide">
+                    <img src="src/imgs/a5.png" alt="">
+                    <span>SMU数量:</span>
+                    <b></b>
+                </p>
+                <p id="cmpNum" class="baseHide hide">
+                    <img src="src/imgs/a6.png" alt="">
+                    <span>组件数量:</span>
+                    <b></b>
+                </p>
+                <p id="smuCode" class="baseHide hide">
+                    <img src="src/imgs/a7.png" alt="">
+                    <span>SMU序列号:</span>
+                    <b></b>
+                </p>
+                <p id="regTime" class="baseHide hide">
+                    <img src="src/imgs/a8.png" alt="">
+                    <span class="textLabel3">安装日期:</span>
+                    <b></b>
+                </p>
+                <p id="devCompany" class="baseHide hide">
+                    <img src="src/imgs/a9.png" alt="">
+                    <span class="textLabel2"> 安装商:</span>
+                    <b class="textSpan2 f12"></b>
+                </p>
+                <p id="location" class="address baseHide hide">
+                    <img src="src/imgs/a10.png" alt="">
+                    <span class="textLabel">地址:</span>
+                    <b class="textSpan f12"></b>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!--组件发电详情-->
+    <div class="componentPowerDetail">
+        <div id="componentPowerSum" style="width:100%; height:440px;"></div>
+
+        <!--日期选择-->
+        <div class="dateTab" id="componentTab">
+            <dl>
+                <dd data-value="1" class="on">实时</dd>
+                <dd data-value="2">日</dd>
+                <dd data-value="3">月</dd>
+                <dd data-value="4">年</dd>
+                <dd data-value="5">总</dd>
+            </dl>
+        </div>
+
+        <div class="datePickerParent" id="componentDatePicker" style="display:none">
+            <label>日期</label>
+            <input id="datePicker2_1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                onpickingComponent(this);
+            }})"/>
+            <input id="datePicker3_1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM',onpicked: function(){
+                onpickingComponent(this);
+            }})" />
+            <input id="datePicker4_1" type="text" onClick="WdatePicker({dateFmt:'yyyy',onpicked: function(){
+                onpickingComponent(this);
+            }})"/>
+            <img id="dateImg" src="src/imgs/date.png" />
+        </div>
+
+        <!--组件选择-->
+        <div class="componentList"></div>
+
+        <div class="componentMask"><img src="src/imgs/loading.gif" /></div>
+        <div class="componentEnpty">暂无数据！</div>
+    </div>
+
+    <!--脚部-->
+    <!--div class="footer">Copynght @ 2016 www.rockcore.com.cn All Rights Reserved 上海岩芯电子科技有限公司</div-->
+
+    <div id="mask"></div>
+
+    <div class="dialogWrap">
+        <div class="dialogHeader"><span class="title">逆变器信息</span><span class="close"><img src="src/imgs/close.png" /></span></div>
+        <div class="powerCal">
+            <div id="getComponentInfo">
+                <ul>
+                    <li><label>逆变器名称：</label><span id="invName">010100100101</span></li>
+                    <li><label>逆变器编号：</label><span id="hwId">010100100101</span></li>
+                    <li><label>挂载电站：</label><span id="smuName">010100100101</span></li>
+                    <li><label>工作状态：</label><span id="status" class="green">010100100101</span></li>
+                    <li><label>PLC通讯：</label><span id="conct" class="green">010100100101</span></li>
+                    <li><label>上报时间：</label><span id="reportDate">010100100101</span></li>
+                    <li><label>电网电压：</label><span id="gridVol"></span>Vac</li>
+                    <li><label>电网频率：</label><span id="gridFreq">010100100101</span>Hz</li>
+                    <li><label>温度：</label><span id="temp">010100100101</span>℃</li>
+                </ul>
+                <div id="channelInfos">
+
+                </div>
+            </div>
+
+            <div class="datePickerParent" id="dialogDatePickerFrom">
+                <label>开始日期：</label>
+                <input type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                    dialogDatepicked()
+                }})"/>
+                <img id="dateImg" src="src/imgs/date.png" />
+            </div>
+            <div class="datePickerParent" id="dialogDatePickerTo">
+                <label>结束日期：</label>
+                <input type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                    dialogDatepicked()
+                }})"/>
+                <img id="dateImg" src="src/imgs/date.png" />
+            </div>
+            
+            <button id="dialogOkBtn">确定</button>
+        </div>
+
+        <div id="componentDialogCharts" style="width:98%; height:320px;"></div>
+
+        <div class="componentDialogMask"><img src="src/imgs/loading.gif" /></div>
+        <div class="componentDialogEnpty">暂无数据！</div>
+    </div>
+
+    <script type="text/javascript" src="src/common.lib/jquery/jquery-1.8.3.min2.js"></script>
+    <script type="text/javascript" src="src/common.lib/echarts1.js"></script>
+    <script type="text/javascript" src="src/common.lib/DES/CryptoJS1.js"></script>
+    <script type="text/javascript" src="src/common.lib/MD5/jquery.md51.js"></script>
+    <script type="text/javascript" src="src/common.lib/setup/setup1.js"></script>
+    <script type="text/javascript" src="src/SPrealTimeStat/defaultOption1.js"></script>
+    <script type="text/javascript" src="src/SPrealTimeStat/index1.js"></script>
+    <script type="text/javascript" src="src/SPcomponentEnergyList/defaultOption1.js"></script>
+    <script type="text/javascript" src="src/SPlistCmpChannelEnergy/baseOption1.js"></script>
+    <script type="text/javascript" src="src/SPcomponentEnergyList/index1.js"></script>
+
+    <script type="text/javascript" src="src/common.lib/sea.js"></script>
+    <script type="text/javascript" src="src/common.lib/seajs-text/seajs-text-1.1.1/seajs-text.js"></script>
+    <script type="text/javascript" src="src/config.js"></script>
+    
+    <script>
+        seajs.use("src/common.lib/sea_css", function(){
+            seajs.use("src/SPstationInfo/index");
+        });
+    </script>
+
+    <script>
+    function onpicking(obj){
+        var date = $(obj).val();
+        var len = date.length;
+        if(len == 4){
+            date = date + "-01-01";
+        }else if(len == 7){
+            date = date + "-01";
+        }else{
+            date = date;
+        }
+        var dateType = $("#powerSumTab dd.on").attr("data-value");
+        var stationId = (sessionStorage.getItem("stationId")) ? sessionStorage.getItem("stationId") : $("#defaultStation").attr("stationId");
+        chartsSum.dateTypeChange(dateType, stationId, date);
+    }
+    function onpickingComponent(obj){
+        var date = $(obj).val();
+        
+        var len = date.length;
+        if(len == 4){
+            date = date + "-01-01";
+        }else if(len == 7){
+            date = date + "-01";
+        }else{
+            date = date;
+        }
+        var dateType = $("#componentTab dd.on").attr("data-value");
+        var stationId =$("#baseComponentStationId").attr("stationId");
+        componentApp.dateTypeChange(dateType, stationId, date);
+    }
+    //因弹框是绝对定位，所以日期的位置显示不对
+    $("#dialogDatePickerFrom input,#dialogDatePickerTo input").click(function(){
+        $("iframe").parent().css("position", "fixed");
+    });
+
+    function dialogDatepicked(){
+        $("iframe").parent().css("position", "absolute");
+    }
+    </script>
+</body>
+</html>
