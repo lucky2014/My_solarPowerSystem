@@ -52,10 +52,18 @@ define(function(require, exports, module) {
 
             
             //-----------------折线图,单个电站统计统计-----------------
-            SPrealTimeStat.dateTypeChange(1, stationId);
+            SPrealTimeStat.dateTypeChange(1, stationId, "", 1);
 
             //脚部
             box.render($(".footer"),"", footerTpl);
+
+            $(".footer span").click(function(){
+                $(".versionRecord").show();
+            });
+
+            $(".versionRecord h2 a.versionClose").click(function(){
+                $(".versionRecord").hide();
+            });
         },
         readerGauge: function(stationId){ //用作实时刷新用刷新
             var me = this;
@@ -70,9 +78,9 @@ define(function(require, exports, module) {
 
     var wHeight = $(window).height();
     if(wHeight>900){
-        $("#myline,.chartsParent").css({"height":"360px", width: "100%"});
+        $(".chartsParent").css({"height":"360px", width: "100%"});
     }else{
-        $("#myline,.chartsParent").css({"height":"320px", width: "100%"});
+        $(".chartsParent").css({"height":"320px", width: "100%"});
     }
 
 

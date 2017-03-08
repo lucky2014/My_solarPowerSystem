@@ -69,11 +69,12 @@
         <!--实时折线图这一列-->
         <div class="chartsParent">
             <div id="myline" style="width:100%; height:340px;"></div>
+            <div class="realTimeEnpty">暂无数据！</div>
 
             <!--日期选择-->
             <div class="dateTab" id="powerSumTab">
                 <dl>
-                    <dd data-value="1" class="on">实时</dd>
+                    <dd data-value="1" class="on">功率</dd>
                     <dd data-value="2">日</dd>
                     <dd data-value="3">月</dd>
                     <dd data-value="4">年</dd>
@@ -83,6 +84,9 @@
 
             <div class="datePickerParent" id="chartsDatePicker" style="display:none; right:5%;">
                 <label>日期</label>
+                <input id="datePicker1" type="text" name="time"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                    onpicking(this)
+                }})"/>
                 <input id="datePicker2" type="text" name="time"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
                     onpicking(this)
                 }})"/>
@@ -165,7 +169,7 @@
         <!--日期选择-->
         <div class="dateTab" id="componentTab">
             <dl>
-                <dd data-value="1" class="on">实时</dd>
+                <dd data-value="1" class="on">功率</dd>
                 <dd data-value="2">日</dd>
                 <dd data-value="3">月</dd>
                 <dd data-value="4">年</dd>

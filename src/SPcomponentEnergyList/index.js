@@ -35,6 +35,99 @@ define(function(require, exports, module) {
                 beginDate: date || me.getDate()
             }
         },
+        dataZoom: function(msg){
+            var dataZoom = [];
+            if(msg && msg.length>100){
+                dataZoom = [
+                    {
+                        type: 'slider',
+                        xAxisIndex: 0,
+                        filterMode: 'empty',
+                        bottom: 0,
+                        start: 0,
+                        end: 100,
+                        handleSize: 24,
+                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                        handleStyle: {
+                            color: '#fff',
+                            shadowBlur: 3,
+                            shadowColor: 'rgba(0, 0, 0, 0.6)',
+                            shadowOffsetX: 2,
+                            shadowOffsetY: 2
+                        },
+                        showDataShadow: false,
+                        textStyle: {
+                            color: "#09787d"
+                        },
+                        backgroundColor: ['#09787d']
+                    }
+                ]
+            }else{
+                dataZoom = [];
+            }
+
+            return dataZoom;
+        },
+        dateType1Fn: function(params, myline){
+            var me = this;
+            setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
+                $(".componentMask").hide();
+                if(msg.length>0){
+                    var time = [];
+                    var data = [];
+                    var all = 0;
+                    $.each(msg, function(i,v){
+                        time.push(v.cmpName);
+
+                        data.push({value: v.power/1000,nbName: v.cmpName, invId: v.invId,cmpId: v.cmpI});
+                        all += (v.energy)/1000;
+                    });
+
+
+                    var option = {
+                        xAxis : {
+                            data : time,
+                            axisLine: {
+                                lineStyle: {
+                                    color: ['#09787d']
+                                }
+                            },
+                        },
+                        dataZoom: me.dataZoom(msg),
+                        yAxis : {
+                            name: "W",
+                            splitLine:{
+                                show: true,
+                                interval: "auto",
+                                lineStyle: {
+                                    color: ['#313b42']
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: ['#09787d']
+                                }
+                            }
+                        },
+                        series : [
+                            {
+                                name:'组件发电详情',
+                                type: 'bar',
+                                areaStyle: {normal: {}},
+                                data: data
+                            },
+                        ]
+                    };  
+                    
+                    option = $.extend({}, defaultOption, option);
+                    myline.setOption(option);
+                    me.onclickFn(myline);
+                }else{
+                    $(".componentEnpty").show();
+                    myline.setOption(defaultOption);
+                }
+            });
+        },
         dateTypeChange: function(dateType, stationId, date, titleType){
             var me = this;
             
@@ -46,96 +139,9 @@ define(function(require, exports, module) {
                 var params = me.getLineParams(stationId, dateType, date);
 
                 var myline = echarts.init(document.getElementById('componentPowerSum'));
-                myline.setOption(defaultOption);
+                //myline.setOption(defaultOption);
                 //请求渲染 
-                setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
-                    $(".componentMask").hide();
-                    if(msg.length>0){
-                        var time = [];
-                        var data = [];
-                        var all = 0;
-                        $.each(msg, function(i,v){
-                            time.push(v.cmpName);
-
-                            data.push({value: v.power/1000,nbName: v.cmpName, invId: v.invId,cmpId: v.cmpI});
-                            all += (v.energy)/1000;
-                        });
-
-                        var dataZoom = [];
-
-                        if(msg && msg.length>100){
-                            dataZoom = [
-                                {
-                                    type: 'slider',
-                                    xAxisIndex: 0,
-                                    filterMode: 'empty',
-                                    bottom: 0,
-                                    start: 0,
-                                    end: 100,
-                                    handleSize: 24,
-                                    handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                    handleStyle: {
-                                        color: '#fff',
-                                        shadowBlur: 3,
-                                        shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                        shadowOffsetX: 2,
-                                        shadowOffsetY: 2
-                                    },
-                                    showDataShadow: false,
-                                    textStyle: {
-                                        color: "#09787d"
-                                    },
-                                    backgroundColor: ['#09787d']
-                                }
-                            ]
-                        }else{
-                            dataZoom = [];
-                        }
-
-                        var option = {
-                            xAxis : {
-                                data : time,
-                                axisLine: {
-                                    lineStyle: {
-                                        color: ['#09787d']
-                                    }
-                                },
-                            },
-                            dataZoom: dataZoom,
-                            yAxis : {
-                                name: "W",
-                                splitLine:{
-                                    show: true,
-                                    interval: "auto",
-                                    lineStyle: {
-                                        color: ['#313b42']
-                                    }
-                                },
-                                axisLine: {
-                                    lineStyle: {
-                                        color: ['#09787d']
-                                    }
-                                }
-                            },
-                            series : [
-                                {
-                                    name:'组件发电详情',
-                                    type: 'bar',
-                                    areaStyle: {normal: {}},
-                                    data: data
-                                },
-                            ]
-                        };  
-                        
-                        
-                        option = $.extend({}, defaultOption, option);
-                        myline.setOption(option);
-
-                        me.onclickFn(myline);
-                    }else{
-                        $(".componentEnpty").show();
-                    }
-                });
+                me.dateType1Fn(params, myline);
 
                 //60秒刷新
                 clearInterval(timer3);
@@ -143,95 +149,8 @@ define(function(require, exports, module) {
                 timer3 = setInterval(function(){
                     //请求渲染 
                     $(".componentEnpty").hide();
-                    myline.setOption(defaultOption);
-                    setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
-                        $(".componentMask").hide();
-                        if(msg.length>0){
-                            var time = [];
-                            var data = [];
-                            var all = 0;
-                            $.each(msg, function(i,v){
-                                time.push(v.cmpName);
-
-                                data.push({value: v.power/1000,nbName: v.cmpName, invId: v.invId,cmpId: v.cmpI});
-                                all += (v.energy)/1000;
-                            });
-
-                            var dataZoom = [];
-
-                            if(msg && msg.length>100){
-                                dataZoom = [
-                                    {
-                                        type: 'slider',
-                                        xAxisIndex: 0,
-                                        filterMode: 'empty',
-                                        bottom: 0,
-                                        start: 0,
-                                        end: 100,
-                                        handleSize: 24,
-                                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                        handleStyle: {
-                                            color: '#fff',
-                                            shadowBlur: 3,
-                                            shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                            shadowOffsetX: 2,
-                                            shadowOffsetY: 2
-                                        },
-                                        showDataShadow: false,
-                                        textStyle: {
-                                            color: "#09787d"
-                                        },
-                                        backgroundColor: ['#09787d']
-                                    }
-                                ]
-                            }else{
-                                dataZoom = [];
-                            }
-
-                            var option = {
-                                xAxis : {
-                                    data : time,
-                                    axisLine: {
-                                        lineStyle: {
-                                            color: ['#09787d']
-                                        }
-                                    },
-                                },
-                                dataZoom: dataZoom,
-                                yAxis : {
-                                    name: "W",
-                                    splitLine:{
-                                        show: true,
-                                        interval: "auto",
-                                        lineStyle: {
-                                            color: ['#313b42']
-                                        }
-                                    },
-                                    axisLine: {
-                                        lineStyle: {
-                                            color: ['#09787d']
-                                        }
-                                    }
-                                },
-                                series : [
-                                    {
-                                        name:'组件发电详情',
-                                        type: 'bar',
-                                        areaStyle: {normal: {}},
-                                        data: data
-                                    },
-                                ]
-                            };  
-                            
-                            
-                            option = $.extend({}, defaultOption, option);
-                            myline.setOption(option);
-
-                            me.onclickFn(myline);
-                        }else{
-                            $(".componentEnpty").show();
-                        }
-                    });
+                    //myline.setOption(defaultOption);
+                    me.dateType1Fn(params, myline);
                 }, 60000);
 
             }else if(dateType == "2"){//选择日
@@ -325,35 +244,6 @@ define(function(require, exports, module) {
                         all += (v.energy)/1000;
                     });
 
-                    if(msg && msg.length>100){
-                        dataZoom = [
-                            {
-                                type: 'slider',
-                                xAxisIndex: 0,
-                                filterMode: 'empty',
-                                bottom: 0,
-                                start: 0,
-                                end: 100,
-                                handleSize: 24,
-                                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                                handleStyle: {
-                                    color: '#fff',
-                                    shadowBlur: 3,
-                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                                    shadowOffsetX: 2,
-                                    shadowOffsetY: 2
-                                },
-                                showDataShadow: false,
-                                textStyle: {
-                                    color: "#09787d"
-                                },
-                                backgroundColor: ['#09787d']
-                            }
-                        ]
-                    }else{
-                        dataZoom = [];
-                    }
-
                     all = formatData(all, "kWh", 1).num + formatData(all, "kWh", 1).unit;
 
                     var option = {
@@ -369,7 +259,7 @@ define(function(require, exports, module) {
                             subtext: "",
                             padding: [0,0,0,0]
                         },
-                        dataZoom: dataZoom,
+                        dataZoom: me.dataZoom(msg),
                         xAxis : {
                             data : time,
                             axisLine: {
@@ -451,7 +341,7 @@ define(function(require, exports, module) {
                 if(msg.status ==1){
                     status = "远程控制停机"
                 }else if(msg.status == 0){
-                    status = "正常工作"
+                    status = "正常"
                 }else{
                     status = "未定义"
                 }

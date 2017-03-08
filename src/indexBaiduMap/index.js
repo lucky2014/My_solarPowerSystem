@@ -2,12 +2,11 @@ define(function(require,exports,module){
 	var $ = require("jquery");
 	var setup = require("setup");
 	var echarts = require("echarts");
-	var getAllTotal = require("src/index/getAllTotal"); //首页总的统计
-	var chinaOption = require("src/common.map/map");
+	var getAllTotal = require("src/indexBaiduMap/getAllTotal"); //首页总的统计
 		//单个电站信息,右边的那一片
 		require("src/indexSide/index");
 
-		require("src/common.map/InfoBox_min.js");
+		require("src/indexBaiduMap/InfoBox_min.js");
 	// 百度地图API功能
 	var map = new BMap.Map("myMap");    // 创建Map实例
 
@@ -53,6 +52,7 @@ define(function(require,exports,module){
 				});
 				$("body").click(function(){
 					$(".userInfo").hide();
+					//$(".versionRecord").hide(); //隐藏版权记录
 				});
 		    });
 		},
@@ -65,24 +65,145 @@ define(function(require,exports,module){
 	        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
 		    //个性化在线编辑器地址：http://developer.baidu.com/map/custom/
-			var styleJson = [
-				 {
-				   "featureType": "all",
-				   "elementType": "geometry",
-				   "stylers": {
-							 "hue": "#202b33",
-							 "saturation": 20
-				   }
-				 },
-				 {
-				   "featureType": "water",
-				   "elementType": "all",
-				   "stylers": {
-							 "color": "#fff"
-				   }
-				 }
-			]
-			map.setMapStyle({styleJson:styleJson});
+			var styleJson = [{
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": {
+                    "color": "#202b33"
+                }
+            }, {
+                "featureType": "land",
+                "elementType": "all",
+                "stylers": {
+                    "color": "#2d4455"
+                }
+            }, {
+                "featureType": "boundary",
+                "elementType": "geometry",
+                "stylers": {
+                    "color": "#212d35"
+                }
+            }, {
+                "featureType": "railway",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "highway",
+                "elementType": "geometry",
+                "stylers": {
+                    "color": "#b5ae57"
+                }
+            }, {
+                "featureType": "highway",
+                "elementType": "geometry.fill",
+                "stylers": {
+                    "color": "#b5ae57",
+                    "lightness": 1
+                }
+            }, {
+                "featureType": "highway",
+                "elementType": "labels",
+                "stylers": {
+                    "visibility": "on"
+                }
+            }, {
+                "featureType": "arterial",
+                "elementType": "geometry",
+                "stylers": {
+                    "color": "#004981",
+                    "lightness": -39
+                }
+            }, {
+                "featureType": "arterial",
+                "elementType": "geometry.fill",
+                "stylers": {
+                    "color": "#00508b"
+                }
+            }, {
+                "featureType": "poi",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "green",
+                "elementType": "all",
+                "stylers": {
+                    "color": "#056197",
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "subway",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "manmade",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "local",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "arterial",
+                "elementType": "labels",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "boundary",
+                "elementType": "geometry.fill",
+                "stylers": {
+                    "color": "#029fd4"
+                }
+            }, {
+                "featureType": "building",
+                "elementType": "all",
+                "stylers": {
+                    "color": "#1a5787"
+                }
+            }, {
+                "featureType": "label",
+                "elementType": "all",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }, {
+                "featureType": "poi",
+                "elementType": "labels.text.fill",
+                "stylers": {
+                    "color": "#ffffff"
+                }
+            }, {
+                "featureType": "poi",
+                "elementType": "labels.text.stroke",
+                "stylers": {
+                    "color": "#1e1c1c"
+                }
+            }, {
+                "featureType": "administrative",
+                "elementType": "labels",
+                "stylers": {
+                    "visibility": "on"
+                }
+            },{
+                "featureType": "road",
+                "elementType": "labels",
+                "stylers": {
+                    "visibility": "off"
+                }
+            }];
+			map.setMapStyle({
+				styleJson:styleJson,
+			});
 
 			var pointRet = [];
 
@@ -108,8 +229,8 @@ define(function(require,exports,module){
 						        minWidth: "220px",
 						        minHeight: "40px",
 						        color: "#fff",
-						        background: "#32ddd7",
-						        border:"1px solid #1fd1cb",
+						        background: "#32ba7c",
+						        border:"1px solid #19a967",
 						        borderRadius: "6px",
 						        padding: "10px"
 						    },
@@ -241,6 +362,7 @@ define(function(require,exports,module){
 	$("#dialogExit .exitButton .cancel,#dialogExit .close").click(function(){
 		$("#dialogExit, #mask").hide();
 		$("body").attr("style","");
+		//$(".versionRecord").hide(); //版权记录隐藏
 	});
 
 	var timerStat = null;

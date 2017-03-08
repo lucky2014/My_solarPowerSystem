@@ -139,12 +139,13 @@
 
         <!--折线图这一行-->
         <div class="chartsParent">
-            <div id="myline" style="width:100%; height:320px;"></div>
+            <div id="myline" class="indexLine" style="width:100%; height:320px; margin-top:14px;"></div>
+            <div class="realTimeEnpty">暂无数据！</div>
 
             <!--日期选择-->
             <div class="dateTab">
                 <dl>
-                    <dd data-value="1" class="on">实时</dd>
+                    <dd data-value="1" class="on">功率</dd>
                     <dd data-value="2">日</dd>
                     <dd data-value="3">月</dd>
                     <dd data-value="4">年</dd>
@@ -155,6 +156,9 @@
 
             <div class="datePickerParent" style="display:none;" id="chartsDatePicker">
                 <label>日期</label>
+                <input id="datePicker1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                    onpicking(this)
+                }})"/>
                 <input id="datePicker2" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
                     onpicking(this)
                 }})"/>
@@ -178,6 +182,29 @@
         <div class="exitButton">
             <button class="cancel">取消</button>
             <button class="active">确定</button>
+        </div>
+    </div>
+
+
+    <div class="versionRecord">
+        <h2>历史版本记录<a class="versionClose"><img src="src/imgs/closeBlank.png" /></a></h2>
+        <div class="content">
+        <dl>
+            <dt class="red">最新版本 V1.0.4</dt>
+            <dd><span>1、</span>更新大屏地图展示界面。<br /><span>2、</span>更新大屏主界面电站信息和电站详情界面的实时发电功率报表，“实时”字段文本改为“功率”，实时发电功率添加日期控件按天为单位选择。<br /><span>3、</span>更新电站详情界面的组件发电功率报表，“实时”字段文本改为“功率”，实时发电功率添加日期控件按天为单位选择。<br /><span>4、</span>修改大屏展示主界面和电站详情界面码表的百分比精确到整数。<br /><span>5、</span>调整电站发电详情报表和主界面电站发电详情报表数值按单位换算。<br /><span>6、</span>修改主界面电站选择菜单、电站详情界面电站子集按电站名称数字进行顺序排列。<br /><span>7、</span>修改电站详情页面组件发电详情报表，将组件曲线图换成单个柱状图。<br /><span>8、</span>修改逆变器页面字段位置及纠正字段单位格式，将字段“状态”跟“PLC通讯”调换位置，电网频率单位改为“Hz”，字段“温度”和“上报时间”互换。</dd>
+        </dl>
+        <dl>
+            <dt>V1.0.3</dt>
+            <dd><span>1、</span>修改电站详情组件详情报表smu选项。<br /><span>2、</span>优化逆变器信息页面数据输出性能及模块编号显示问题。<br /><span>3、</span>修改逆变器页面温度为负数问题。<br /><span>4、</span>优化电站详情界面组件发电详情的平均值显示问题。<br /><span>5、</span>优化逆变器页面报表默认信息展示。</dd>
+        </dl>
+        <dl>
+            <dt>V1.0.2</dt>
+            <dd><span>1、</span>增加电站详情页面<br /><span>2、</span>增加逆变器详情页面<br /><span>3、</span>优化大屏主界面数值换算<br /><span>4、</span>优化大屏主界面单个电站详情天气轮播时间（改为5秒轮播）、电站详情图片显示比例（按照16:9比例展示）。<br /><span>5、</span>优化大屏主界面单个电站详情码表展示。<br /><span>6、</span>纠正大屏主界面单个电站统计报表显示单位。<br /><span>7、</span>优化大屏主界面操作刷新体验，将合计的数据和地图面板分开刷新。 </dd>
+        </dl>
+        <dl>
+            <dt>V1.0.1</dt>
+            <dd class="last"><span>1、</span>完成大屏主界面开发并确定总体数据算法及环境效益数据算法。<br /><span>2、</span>完成大屏主界面开发单个电站详情基本信息展示，并确定单个电站发电功率报表数据输出要求。<br /><span>3、</span>完善大屏主界面个人基本信息展示并在用户登录时插入最后登录时间和登录IP。<br /><span>4、</span>确定并优化大屏主界面设计效果图和大屏主界面单个电站展示效果图（多次版本迭代）。</dd>
+        </dl>
         </div>
     </div>
 

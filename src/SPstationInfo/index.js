@@ -36,7 +36,7 @@ define(function(require, exports, module) {
             me.getStationDetail(stationId);
 
             //------------------单个电站统计统计---------------------
-            SPrealTimeStat.dateTypeChange(1, stationId);
+            SPrealTimeStat.dateTypeChange(1, stationId, "", 1);
 
             //------------------SMU子站列表---------------------
             listStationSmuApp.init(stationId);
@@ -98,7 +98,7 @@ define(function(require, exports, module) {
         var me = $(this);
         var dateType = me.attr("data-value");
         me.addClass("on").siblings().removeClass("on");
-        var stationId = $("#baseComponentStationId").attr("stationId");
+        var stationId = $("#defaultStation").attr("stationId");
 
         //最后一个1说明是从日期类型选中，而不是日期插件
         //第3个参数是传递的日期

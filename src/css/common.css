@@ -16,7 +16,7 @@ display: none; background: #202b33;}
 .header .h_user li img{ margin-top: 9px; display: inline-block;}
 
 .footer{ overflow: hidden; border-top: 1px solid #303a41; text-align: center; color: #fff; margin:0 1%; padding: 10px 0;
-height: 24px; line-height: 24px;}
+height: 24px; line-height: 24px; position: relative;}
 
 .nav{ margin: 10px 1% 0;  border-bottom: 1px solid #303a41;}
 .nav ul{ overflow: hidden;}
@@ -25,12 +25,12 @@ height: 24px; line-height: 24px;}
 .nav li span{ display: inline-block; color: #fff; padding-left: 6px; text-align: left;}
 .nav li span i,.nav li span i em{ display: block; font-style: normal; font-weight: normal; color: #6d7d89; font-size: 12px;}
 .nav li span i em{ display: inline-block;}
-.nav li h4{ display: block; height: 28px; color: #23f8fd; padding: 4px 0; line-height: 28px; font-size: 26px;  font-family:Segoe UI Symbol;}
+.nav li h4{ display: block; height: 28px; color: #23f8fd; padding: 4px 0 7px; line-height: 28px; font-size: 26px;  font-family:Segoe UI Symbol;}
 
 /*用户信息*/
 .userInfo{position: absolute; top: 60px; right: 10px; width: 270px; background: #202b33; padding: 10px;
 border: 1px solid #71808e; z-index: 99; border-radius:4px; display: none;}
-.userInfo li{ overflow: hidden; padding: 4px 0;}
+.userInfo li{ overflow: hidden; padding: 4px 0; color: #fff;}
 .userInfo label,.userInfo span{display: inline-block; vertical-align: top;}
 .userInfo label{ padding: 0 8px 0 0;}
 .userInfo span.xlong{ width: 210px;}
@@ -114,7 +114,7 @@ right: 0;bottom: 0;z-index: 66; height: 180px; overflow: hidden; border-left: 1p
 .percentage{ position: absolute; bottom: 34px; width: 47%; text-align: center; left: 8px; font-size: 20px; color: #23f8fd}
 
 /*图表这一行*/
-.chartsParent{ clear: both; overflow: hidden; border-bottom: 1px solid #303a41; position: relative;}
+.chartsParent{ clear: both; overflow: hidden; position: relative;}
 .dateTab{ position: absolute;; left: 10px; top: 14px; width: 30%; background: #384b59; border-radius:16px; padding: 0 10px;
 height:26px; line-height: 26px; color: #fff;}
 .dateTab dl{ clear: both; overflow: hidden; }
@@ -196,3 +196,17 @@ width: 50px; height: 26px; color: #333; cursor: pointer;}
 #dialogExit .exitButton button.active{ background: #2e8ded; border: 1px solid #4899d6; color: #fff;}
 
 .anchorBL{display:none;}
+
+.realTimeEnpty{position: absolute; left: 46%; top: 158px; color: #fff;}
+
+/*版权记录*/
+.footer span{ float: right; margin-right: 20px; display: inline-block; cursor: pointer;}
+.versionRecord{ position: absolute; right: 10px; bottom: 30px;  background: #fff; width: 50%; overflow-x: hidden; display: none;}
+.versionRecord h2{ height: 30px; line-height: 30px; padding: 0 10px; background: #ababab; color: #333; font-size: 16px;}
+.versionRecord h2 .versionClose{ float: right; margin-top: 3px; cursor: pointer;}
+.versionRecord .content{margin:8px 0; width: 100%; overflow-x:hidden; height: 500px; overflow-y:scroll; 
+background: url(../imgs/line.png) 40px 8px repeat-y;}
+.versionRecord dd{ padding: 0 20px 0 80px; position: relative; line-height: 22px;}
+.versionRecord dl dt{ background: #fff; color: #06c; padding: 6px 0 6px 20px;}
+.versionRecord dl dt.red{ color: red;}
+.versionRecord dl dd span{ display: inline-block; width: 30px; position: absolute; left: 60px;}

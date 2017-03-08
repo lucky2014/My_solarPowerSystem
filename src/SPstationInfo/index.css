@@ -92,3 +92,4 @@ width: 100%; padding-top: 160px; z-index: 9992}
 
 .componentEnpty{ background: none; display: none; top: 40px; height: 100px; padding-top: 160px}
 .componentDialogEnpty{ background: none; display: none; top: 40px; height: 100px; padding-top: 389px}
+.realTimeEnpty{position: absolute; left: 46%; top: 158px; color: #fff;}
