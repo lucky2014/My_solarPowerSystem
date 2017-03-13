@@ -109,7 +109,8 @@ var chartsSum = {
                 option = $.extend({},defaultOption1,option); 
                 myline.setOption(option);
             }else{
-                myline.setOption(defaultOption1);
+                var mylineNull = echarts.init(document.getElementById('myline'));
+                mylineNull.setOption(defaultOption1);
                 $(".realTimeEnpty").show();
             } 
         });
@@ -306,8 +307,6 @@ var chartsSum = {
                     ]
                 }; 
 
-
-                var myline = echarts.init(document.getElementById('myline'));
                 option = $.extend({}, defaultOption1, option);
                 myline.setOption(option);
             }else{

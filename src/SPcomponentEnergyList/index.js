@@ -60,12 +60,13 @@ define(function(require, exports, module) {
         getDate: function(dateType){
             var me = this;
             var str = "";
+            var myDate = new Date();
             if(dateType == 2 && myDate.getHours() <= 20){
                 myDate.setDate(myDate.getDate()-1);
-                str = myDate.getFullYear() + "-" + me.formatterDate(myDate.getMonth()+1) +"-"+ me.formatterDate(myDate.getDate())+ " " + myDate.getHours()+":" + myDate.getMinutes() + ":" + myDate.getSeconds();
+                str = myDate.getFullYear() + "-" + me.formatterDate(myDate.getMonth()+1) +"-"+ me.formatterDate(myDate.getDate())+ " " + me.formatterDate(myDate.getHours())+":" + me.formatterDate(myDate.getMinutes()) + ":" + me.formatterDate(myDate.getSeconds());
                 myDate.setDate(myDate.getDate()+1);
             }else{
-                str = me.getMonth() + "-" + me.formatterDate(myDate.getDate())+ " " + myDate.getHours()+":" + myDate.getMinutes() + ":" + myDate.getSeconds();
+                str = me.getMonth() + "-" + me.formatterDate(myDate.getDate())+ " " + me.formatterDate(myDate.getHours())+":" + me.formatterDate(myDate.getMinutes())+ ":" + me.formatterDate(myDate.getSeconds());
             }
             return str;
         },
@@ -238,8 +239,9 @@ define(function(require, exports, module) {
                     myline.setOption(option);
                     me.onclickFn(myline,msg);
                 }else{
+                    var mylineNull = echarts.init(document.getElementById('componentPowerSum'));
+                    mylineNull.setOption(defaultOption);
                     $(".componentEnpty").show();
-                    myline.setOption(defaultOption);
                 }
             });
         },
@@ -263,6 +265,8 @@ define(function(require, exports, module) {
                 timer3 = setInterval(function(){
                     //请求渲染 
                     $(".componentEnpty").hide();
+                    date = me.getDate(dateType);
+                    params = me.getLineParams(stationId, dateType, date);
                     me.dateType1Fn(params, myline);
                 }, 60000);
 
@@ -456,8 +460,9 @@ define(function(require, exports, module) {
                     myline.setOption(option);
                     me.onclickFn(myline,msg);
                 }else{
+                    var mylineNull = echarts.init(document.getElementById('componentPowerSum'));
+                    mylineNull.setOption(defaultOption);
                     $(".componentEnpty").show();
-                    myline.setOption(defaultOption);
                 }
             });
         },

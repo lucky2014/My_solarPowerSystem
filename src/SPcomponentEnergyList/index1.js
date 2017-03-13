@@ -176,8 +176,9 @@ var componentApp = {
                 myline.setOption(option);
                 me.onclickFn(myline,msg);
             }else{
+                var mylineNull = echarts.init(document.getElementById('componentPowerSum'));
+                mylineNull.setOption(defaultOption);
                 $(".componentEnpty").show();
-                myline.setOption(defaultOption);
             }
         });
     },
@@ -405,8 +406,9 @@ var componentApp = {
                 myline.setOption(option);
                 me.onclickFn(myline,msg);
             }else{
+                var mylineNull = echarts.init(document.getElementById('componentPowerSum'));
+                mylineNull.setOption(defaultOption);
                 $(".componentEnpty").show();
-                myline.setOption(defaultOption);
             }
         });   
     },

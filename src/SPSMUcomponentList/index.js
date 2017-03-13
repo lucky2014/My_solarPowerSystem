@@ -7,7 +7,7 @@ define(function(require, exports, module) {
     //组件发电详情
     var SPcomponentEnergyListApp = require('src/SPcomponentEnergyList/index');
     var getDateApp = require('src/common.getDate/index');
-    var time = getDateApp.getDate();
+    var time = getDateApp.getDate(1);
 
     box.render($(".componentList"), "", componentTpl);
 

@@ -120,7 +120,8 @@ define(function(require, exports, module) {
                     option = $.extend({}, defaultOption, option);
                     myline.setOption(option);
                 }else{
-                    myline.setOption(defaultOption);
+                    var mylineNull = echarts.init(document.getElementById('myline'));
+                    mylineNull.setOption(defaultOption);
                     $(".realTimeEnpty").show();
                 }                
             });
@@ -312,7 +313,7 @@ define(function(require, exports, module) {
                             },
                         ]
                     };
-                    var myline = echarts.init(document.getElementById('myline'));
+                    
                     option = $.extend({}, defaultOption, option);
 
                     myline.setOption(option);
