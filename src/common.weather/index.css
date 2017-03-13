@@ -1,0 +1,24 @@
+.weatherIndex{overflow: hidden;border-bottom: 1px solid #878f9a;height: 70px; position: relative;}
+.weatherIndex ul{ position: absolute; left: 0; top: 0; height: 1000px;}
+.weatherIndex b{font-weight: normal;padding: 2px 5px;background-color: #5d5aa1;color: #fff;border-radius: 5px;margin-top: 0.2rem;float: left;margin-left: 6px;}
+.weatherIndex i{font-style: normal;color: #fff;font-size: 1.5rem;float: right;}
+.weatherIndex img{float: right;height: 1.9rem;}
+
+.weather{overflow: hidden; height: 160px; position: relative;}
+.weather .swiper-slide{width: 92%; margin: 0 auto;}
+.weather .weatherToday p{ padding: 6px 12px;}
+.weather b{font-weight: normal;padding: 4px 10px;background-color: #5d5aa1;color: #fff;
+border-radius: 5px;margin-top: 0.2rem;float: left;margin-left: 6px;}
+.weather i{font-style: normal;color: #fff;font-size: 1.5rem;float: right;}
+.weather .weatherToday img{float: right;height: 1.9rem;}
+
+.weather p{padding: 4px 0; overflow: hidden;}
+.weather span{font-size: 1rem;color: #fff; float: left; margin: 10px 0 0;}
+
+.weatherAnother ul{ overflow: hidden; border-bottom: 1px solid #878f9a; height: 79px;}
+.weatherAnother p{ text-align: center; padding: 0;}
+.weatherAnother p img{ display: inline-block; margin: 0 auto; height: 1.9rem;}
+.weatherAnother li{ float: left; width: 49%; padding-top: 8px;}
+
+/*个性化banner滚动*/
+.weather .swiper-wrapper{ position: absolute;  overflow: hidden; left: 0; top: 0; width: 240px; height: 10000px;}

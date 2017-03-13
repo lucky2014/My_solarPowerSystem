@@ -1,0 +1,14 @@
+.textSpan{width:165px; line-height:16px; padding-top:4px;}
+.textSpan2{width:165px; line-height:16px; padding-top:4px;}
+.textLabel{ width:40px; vertical-align: top;}
+.textLabel2{ width:50px; vertical-align: top;}
+.textLabel3{ width:60px; vertical-align: top;}
+
+.f12{ font-size: 12px;}
+
+.addressParent{ padding-top: 10px; cursor: pointer;}
+.addressParent p{ padding: 0 0 0 20px; line-height: 28px; margin-bottom: 2px;}
+.addressParent p img{ display: inline-block; width: 9.6%; vertical-align: top; margin-top: 2px;}
+.addressParent p span{ display: inline-block;}
+.addressParent p b{ font-weight: normal; display: inline-block;}
+
