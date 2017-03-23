@@ -21,4 +21,4 @@ border-radius: 5px;margin-top: 0.2rem;float: left;margin-left: 6px;}
 .weatherAnother li{ float: left; width: 49%; padding-top: 8px;}
 
 /*个性化banner滚动*/
-.weather .swiper-wrapper{ position: absolute;  overflow: hidden; left: 0; top: 0; width: 240px; height: 10000px;}
+.weather .swiper-wrapper{ position: absolute;  overflow: hidden; left: 0; top: 0; height: 10000px;}

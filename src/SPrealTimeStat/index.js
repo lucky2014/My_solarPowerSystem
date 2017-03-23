@@ -270,9 +270,9 @@ define(function(require, exports, module) {
                             trigger: 'axis',
                             formatter : function (params) {
                                 if(dateType == 4 || dateType == 5){
-                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"kWH" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0kWH";
+                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"kWh" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0kWh";
                                 }else{
-                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"WH" : params[0].data.date + '<br />'+params[0].seriesName +" : 0WH";
+                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"Wh" : params[0].data.date + '<br />'+params[0].seriesName +" : 0Wh";
                                 }
                                 
                             },

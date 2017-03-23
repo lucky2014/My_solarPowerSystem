@@ -13,15 +13,15 @@
     </div>
     
     <!--仪表这一行-->
-    <div class="infoWrap" style="margin-top:0;">
+    <div class="infoWrap myGaugeParent" style="margin-top:0; position:relative;">
         <div id="powerMeter">
             <div id="myGaugeInfo" style="width:100%; height:250px;"></div>
             <div id="myPolarInfo" style="width:100%; height:210px; margin-top:2px;"></div>
             <div id="refreshTime"></div>
             <div class="defaultLabel"><span>0%</span><span>100%</span></div>
             <div class="percentage"></div>
-            <div class="sum">今日发电量：<span id="todayEnergy"></span>&nbsp;&nbsp;&nbsp;&nbsp;今日总收益：<span id="todayIncome"></span></div>
         </div>
+        <div class="sum hide">今日发电量：<span id="todayEnergy"></span><span class="dBlock">今日总收益：<span id="todayIncome"></span></span></div>
 
         <ul id="totalSum">
             <li>
@@ -111,7 +111,7 @@
                 <p id="stationName">
                     <img src="src/imgs/a1.png" alt="">
                     <span class="textLabel2">电站名:</span>
-                    <b class="textSpan2 f12"></b>
+                    <b class="textSpan"></b>
                 </p>
                 <p id="msuDay">
                     <img src="src/imgs/a2.png" alt="">
@@ -151,13 +151,15 @@
                 <p id="devCompany" class="baseHide hide">
                     <img src="src/imgs/a9.png" alt="">
                     <span class="textLabel2"> 安装商:</span>
-                    <b class="textSpan2 f12"></b>
+                    <b class="textSpan"></b>
                 </p>
                 <p id="location" class="address baseHide hide">
                     <img src="src/imgs/a10.png" alt="">
                     <span class="textLabel">地址:</span>
-                    <b class="textSpan f12"></b>
+                    <b class="textSpan"></b>
                 </p>
+
+                <img class="foldUp" src="src/imgs/foldDown.png" alt="">
             </div>
         </div>
     </div>

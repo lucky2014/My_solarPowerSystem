@@ -1,5 +1,5 @@
 *{ margin: 0; padding: 0; font-family: 'microsoft yahei'; font-size: 14px; list-style: none;}
-body{ background: #202b33; min-width: 1000px;}
+body{ background: #202b33; min-width: 1200px;}
 .hide{ display: none;}
 
 .wrap{ width: 62%; position: relative;}
@@ -213,4 +213,4 @@ background: url(../imgs/line.png) 40px 8px repeat-y;}
 
 /*首页地图*/
 .BMap_pop .detail{ float: right; margin-top: -6px;}
-.BMap_bubble_content{ line-height: 30px;}
+.BMap_bubble_content{ line-height: 24px;}

@@ -190,7 +190,17 @@
         <h2>历史版本记录<a class="versionClose"><img src="src/imgs/closeBlank.png" /></a></h2>
         <div class="content">
         <dl>
-            <dt class="red">最新版本 V1.0.5</dt>
+            <dt class="red">最新版本 V1.0.6</dt>
+            <dd>
+                <span>1、</span>大屏地图：<br />
+                    （1）百度地图采用白色底，与白底配合弹框依然采用白色底。<br />
+                    （2）增加功能：鼠标移到标识物弹框出来，移开弹框隐藏。<br />
+                    （3）弹框增加字段：地址，位置在最底下。<br />
+                    （4）增加显示功能：地图放大时，具体的路名显示出来。<br />
+            </dd>
+        </dl>
+        <dl>
+            <dt>最新版本 V1.0.5</dt>
             <dd>
                 <span>1、</span>大屏地图采用百度地图，电站表识物的颜色根据右边码表值的颜色渐变！点击表识物，出来提示框，右边电站详情跟着相应改变。点击提示框右箭头，进去相应的电站详情页面。<br />
                 <span>2、</span>电站概况的行驶里程单位原来大写KM,目前改成小写km。<br />
@@ -264,6 +274,7 @@
     </script>
 
     <!--style>
+    .BMap_pop{ color: #fff;}
     .anchorBL{  
         display:none;  
     }  
@@ -275,8 +286,7 @@
     }  
     .BMap_pop div:nth-child(1){ 
         border-top: 1px solid #19a967;
-        border-left: 1px solid #19a967; 
-        border-radius:7px 0 0 0;  
+        border-left: 1px solid #19a967;  
         background: #32ba7c; position: absolute; right: -99999em;
     }  
     .BMap_pop div:nth-child(1) div{ background: #32ba7c;}
@@ -288,7 +298,6 @@
     .BMap_pop div:nth-child(3){ 
         border-top: 1px solid #19a967;
         border-right: 1px solid #19a967; 
-        border-radius:0 7px 0 0;
         background: #32ba7c;  
         width:23px;  
         width:0px;
@@ -296,41 +305,37 @@
         position: absolute; right: -99999em;
     }  
     .BMap_pop div:nth-child(3) div{  
-        border-radius:7px;  
         background: #32ba7c;
     }  
     .BMap_pop .BMap_center {
         border-left: 1px solid #19a967;
-        border-right: 1px solid #19a967;
+        border-right: 2px solid #19a967;
         background: #32ba7c;
     }
     .BMap_pop div:nth-child(5){  
-        border-radius:0 0 0 7px;  
         border-left: 1px solid #19a967;
         border-bottom: 1px solid #19a967;
         background: #32ba7c;
         position: absolute; right: -99999em;
     }  
     .BMap_pop div:nth-child(5) div{  
-        border-radius:7px;  
         background: #32ba7c;
     }  
     .BMap_pop .BMap_bottom {
-        border-bottom: 1px solid #19a967;
+        border-bottom: 2px solid #19a967;
         background-color: #32ba7c;
         position: absolute; right: -99999em;
     }
     .BMap_pop div:nth-child(7){  
-        border-radius:0 0 7px 0 ; 
         background: #32ba7c;
         border-right: 1px solid #19a967;
         border-bottom: 1px solid #19a967; 
         position: absolute; right: -99999em;
     }  
     .BMap_pop div:nth-child div(7){  
-        border-radius:7px ;
         background: #32ba7c;  
     }  
+    .BMap_pop div:nth-child(8) img{ background: red;}
     </style-->
 </body>
 </html>

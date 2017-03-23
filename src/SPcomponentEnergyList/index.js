@@ -252,6 +252,9 @@ define(function(require, exports, module) {
                 $("#componentDatePicker").hide();
                 $(".componentMask").show();
                 $(".componentEnpty").hide();
+                $(".componentList").css({
+                    right: "20px"
+                });
                 var date = date || me.getDate(dateType);
                 var params = me.getLineParams(stationId, dateType, date);
 
@@ -271,6 +274,9 @@ define(function(require, exports, module) {
                 }, 60000);
 
             }else if(dateType == "2"){//选择日
+                $(".componentList").css({
+                    right: "200px"
+                });
                 clearInterval(timer3);
                 timer3 = null;
                 var str = me.getDate(dateType);
@@ -288,6 +294,9 @@ define(function(require, exports, module) {
                 
                 me.renderBar(dateType, params, titleType);
             }else if(dateType == "3"){//选择月
+                $(".componentList").css({
+                    right: "200px"
+                });
                 clearInterval(timer3);
                 timer3 = null;
                 var str = me.getMonth(dateType);
@@ -305,6 +314,9 @@ define(function(require, exports, module) {
 
                 me.renderBar(dateType, params, titleType);
             }else if(dateType == "4"){//选择年
+                $(".componentList").css({
+                    right: "200px"
+                });
                 clearInterval(timer3);
                 timer3 = null;
                 $("#componentDatePicker").show();
@@ -322,6 +334,9 @@ define(function(require, exports, module) {
                 
                 me.renderBar(dateType, params, titleType);
             }else{ //选择总
+                $(".componentList").css({
+                    right: "20px"
+                });
                 clearInterval(timer3);
                 timer3 = null;
                 $("#componentDatePicker").hide();
@@ -340,6 +355,7 @@ define(function(require, exports, module) {
             var myline = echarts.init(document.getElementById('componentPowerSum'));
             myline.setOption(defaultOption);
             setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
+                //console.log(JSON.stringify(msg,null,2));
                 $(".componentMask").hide();
                 if(msg && msg.length>0){
                     var invName = [];
@@ -347,22 +363,32 @@ define(function(require, exports, module) {
                     var series = [];
                     var all = 0;
                     var avgEnergy = [];
+                    var len = 0;
                     $.each(msg, function(i,v){
                         invName.push({value:v.invName});
 
                         var channleObj = [];
-                        for(var j=0; j<v.cmpCharts.length; j++){
-                            var ord = v.cmpCharts[j].ord;
-                            ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
-                            channleObj.push(ord + "：" + format(v.cmpCharts[j].energy)+"Wh");
-                            dataBase[j].push({value:(v.cmpCharts[j].energy)/1000, cmpId: v.cmpCharts[j].cmpId, invId: v.cmpCharts[j].invId,channleObj: channleObj});
+                        len = (v.cmpCharts.length>4)? 4 : v.cmpCharts.length;
+                        console.log("长度是："+ len);
+                        for(var j=0; j< len; j++){
+                            if(v.cmpCharts[j]){
+                                var ord = v.cmpCharts[j].ord;
+                                ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
+                                channleObj.push(ord + "：" + format(v.cmpCharts[j].energy)+"Wh");
+                                dataBase[j].push({value:(v.cmpCharts[j].energy)/1000, cmpId: v.cmpCharts[j].cmpId, invId: v.cmpCharts[j].invId,channleObj: channleObj});
+                            }else{
+                                dataBase[j].push({value: 0,channleObj: channleObj});
+                            }
+                            
                             all += (v.cmpCharts[j].energy)/1000;
                         }
                         avgEnergy.push({value: v.avgEnergy/1000});
                     });
                     all = formatData(all, "kWh", 1).num + formatData(all, "kWh", 1).unit;
 
+                    //console.log(JSON.stringify(dataBase,null,2));
                     for(var i=0; i<4; i++){
+                        console.log(i+"=="+dataBase[i].length)
                         if(dataBase[i].length != 0){
                             series.push({
                                 type: 'bar',

@@ -186,6 +186,9 @@ var componentApp = {
         var me = this;
         
         if(dateType == "1"){//实时
+            $(".componentList").css({
+                right: "20px"
+            });
             $("#componentDatePicker").hide();
             $(".componentMask").show();
             $(".componentEnpty").hide();
@@ -206,6 +209,9 @@ var componentApp = {
             }, 60000);
 
         }else if(dateType == "2"){//选择日
+            $(".componentList").css({
+                right: "200px"
+            });
             clearInterval(timer3);
             timer3 = null;
             var str = me.getDate(dateType);
@@ -223,6 +229,9 @@ var componentApp = {
 
             me.renderBar(dateType, params, titleType);
         }else if(dateType == "3"){//选择月
+            $(".componentList").css({
+                right: "200px"
+            });
             clearInterval(timer3);
             timer3 = null;
             var str = me.getMonth(dateType);
@@ -240,6 +249,9 @@ var componentApp = {
 
             me.renderBar(dateType, params, titleType);
         }else if(dateType == "4"){//选择年
+            $(".componentList").css({
+                right: "200px"
+            });
             clearInterval(timer3);
             timer3 = null;
             $("#componentDatePicker").show();
@@ -256,6 +268,9 @@ var componentApp = {
             
             me.renderBar(dateType, params, titleType);
         }else{ //选择总
+            $(".componentList").css({
+                right: "20px"
+            });
             clearInterval(timer3);
             timer3 = null;
             $("#componentDatePicker").hide();

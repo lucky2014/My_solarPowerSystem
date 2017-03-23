@@ -62,7 +62,7 @@ define(function(require,exports,module){
 			//渲染标注物
 			var pointRet =[];
 			setup.commonAjax("getPowerList", setup.getParams(), function(msg){
-				//console.log(JSON.stringify(msg,null,2));
+				console.log(JSON.stringify(msg,null,2));
 				map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 8);  // 初始化地图,设置中心点坐标和地图级别
 				$.each(msg.chartList, function(i,v){
 					if(v.lon && v.lat){
@@ -98,14 +98,21 @@ define(function(require,exports,module){
 						
 						var opts = {
 						  width : 300,     // 信息窗口宽度
-						  height: 20,     // 信息窗口高度
+						  height: 72,     // 信息窗口高度
 						  title : "" , // 信息窗口标题
 						  enableMessage:false,//设置允许信息窗发送短息
 						  offset: new BMap.Size(-2,-9)
 						}
-						var infoWindow = new BMap.InfoWindow("<strong>"+v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<a href=stationInfo.html?stationId=" + v.id + "&name=" + v.name + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
+						var infoWindow = new BMap.InfoWindow("<strong>"+v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + v.name + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
 						marker.addEventListener("click", function(){          
-							map.openInfoWindow(infoWindow,point); //开启信息窗口
+							map.openInfoWindow(infoWindow,point); //开启信息窗口配合
+							//信息框背景颜色，与index.html配合
+							/*$(".BMap_pop div:nth-child(5) div,.BMap_pop div:nth-child(3) div,.BMap_pop div:nth-child(7) div").css({
+								background: "#32ba7c",
+							    "border-top": "1px solid #19a967",
+								"border-right": "1px solid #19a967",
+							});*/
+							//$(".BMap_pop div:nth-child(8) img").attr("src",);
 							//初始化下拉列表
 							$("#defaultStation").text(v.name).attr("stationId",v.id);
 		        			sessionStorage.setItem("stationId", v.id);

@@ -118,15 +118,24 @@ define(function(require, exports, module) {
     });
 
     //点击地址栏
-    $(".addressParent").hover(function(){
+    $(".addressParent .foldUp").click(function(){
         var me = $(this);
-        me.find("p.baseHide").removeClass("hide");
-        me.addClass("all");
-        $(".weather").hide();
-    },function(){
-        var me = $(this);
-        me.find("p.baseHide").addClass("hide");
-        me.removeClass("all");
-        $(".weather").show();
+        if(me.hasClass("show")){
+            me.removeClass("show");
+            me.siblings("p.baseHide").addClass("hide");
+            me.parent().removeClass("all");
+            $(".weather").show();
+            me.css({
+                bottom: "20px"
+            }).attr("src", "src/imgs/foldUp.png");
+        }else{
+            me.siblings("p.baseHide").removeClass("hide");
+            me.parent().addClass("all");
+            $(".weather").hide();
+            me.css({
+                bottom: "280px"
+            }).attr("src", "src/imgs/foldDown.png");
+            me.addClass("show");
+        }
     });
 });
