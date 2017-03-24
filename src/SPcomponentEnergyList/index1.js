@@ -90,23 +90,24 @@ var componentApp = {
         var me = this;
         setupApp.commonAjax("listComponentEnergy", setupApp.getParams(params), function(msg){
             $(".componentMask").hide();
-            if(msg && msg.length>0){
+            if(msg && msg.listCmpCharts.length>0){
                 var invName = [];
                 var dataBase = [[],[],[],[]];
                 var series = [];
-                $.each(msg, function(i,v){
+                var len = msg.maxInvLength;
+                $.each(msg.listCmpCharts, function(i,v){
                     invName.push({value:v.invName});
-
                     var channleObj = [];
-                    for(var j=0; j<v.cmpCharts.length; j++){
-                        var ord = v.cmpCharts[j].ord;
-                        ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+v.cmpCharts[j].ord+"</span>";
-                        channleObj.push(ord + "：" + format(v.cmpCharts[j].power)+"W");
-                        dataBase[j].push({value:(v.cmpCharts[j].power)/1000, cmpId: v.cmpCharts[j].cmpId, invId: v.cmpCharts[j].invId,channleObj: channleObj});
+                    for(var j=0; j< len; j++){
+                        var ord = j+1;
+                        ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
+                        channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
+                        dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
                     }
+                    stdPower.push({value: v.stdPower/1000});
                 });
 
-                for(var i=0; i<4; i++){
+                for(var i=0; i<len; i++){
                     if(dataBase[i].length != 0){
                         series.push({
                             type: 'bar',
@@ -308,22 +309,24 @@ var componentApp = {
                 var series = [];
                 var all = 0;
                 var avgEnergy = [];
-                $.each(msg, function(i,v){
+                var len = msg.maxInvLength;
+                $.each(msg.listCmpCharts, function(i,v){
                     invName.push({value:v.invName});
 
                     var channleObj = [];
-                    for(var j=0; j<v.cmpCharts.length; j++){
-                        var ord = v.cmpCharts[j].ord;
+                    for(var j=0; j< len; j++){
+                        var ord = j+1;
                         ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
-                        channleObj.push(ord + "：" + format(v.cmpCharts[j].energy)+"Wh");
-                        dataBase[j].push({value:(v.cmpCharts[j].energy)/1000, cmpId: v.cmpCharts[j].cmpId, invId: v.cmpCharts[j].invId,channleObj: channleObj});
-                        all += (v.cmpCharts[j].energy)/1000;
+                        channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
+                        dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
+                        
+                        all += ((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000;
                     }
                     avgEnergy.push({value: v.avgEnergy/1000});
                 });
                 all = me.formatterData(all, "kWh", 1).num + me.formatterData(all, "kWh", 1).unit;
 
-                for(var i=0; i<4; i++){
+                for(var i=0; i<len; i++){
                     if(dataBase[i].length != 0){
                         series.push({
                             type: 'bar',

@@ -7,7 +7,7 @@ define(function(require,exports,module){
 	var indexSideApp = require("src/indexSide/index");
 
 	// 百度地图API功能
-	var map = new BMap.Map("myMap");    // 创建Map实例
+	var map = new BMap.Map("myMap",{minZoom:8});    // 创建Map实例
 
 	var vHeight = $(window).height(); //屏幕高度，初始化时需要屏幕的高度
 	//获取地图的高度
@@ -62,15 +62,14 @@ define(function(require,exports,module){
 			//渲染标注物
 			var pointRet =[];
 			setup.commonAjax("getPowerList", setup.getParams(), function(msg){
-				console.log(JSON.stringify(msg,null,2));
-				map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 8);  // 初始化地图,设置中心点坐标和地图级别
+				map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 11);  // 初始化地图,设置中心点坐标和地图级别
+				//console.log(JSON.stringify(msg.chartList,null,2));
+				//msg.chartList.length = 7;
 				$.each(msg.chartList, function(i,v){
 					if(v.lon && v.lat){
 						var point = new BMap.Point(v.lon, v.lat);
 						pointRet.push(point);
-
 						var persent = v.power/1000/v.capacity;
-						//console.log(persent);
 						var myIcon = "";
 						if(persent<0.1){
 							myIcon = new BMap.Icon("src/imgs/loc1.png", new BMap.Size(30,44));
@@ -104,15 +103,15 @@ define(function(require,exports,module){
 						  offset: new BMap.Size(-2,-9)
 						}
 						var infoWindow = new BMap.InfoWindow("<strong>"+v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + v.name + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
+						marker.addEventListener("mouseover", function(){          
+							map.openInfoWindow(infoWindow,point); //开启信息窗口配合
+						});	
+						/*marker.addEventListener("mouseout", function(){          
+							map.closeInfoWindow(infoWindow,point); //开启信息窗口配合
+						});*/
 						marker.addEventListener("click", function(){          
 							map.openInfoWindow(infoWindow,point); //开启信息窗口配合
-							//信息框背景颜色，与index.html配合
-							/*$(".BMap_pop div:nth-child(5) div,.BMap_pop div:nth-child(3) div,.BMap_pop div:nth-child(7) div").css({
-								background: "#32ba7c",
-							    "border-top": "1px solid #19a967",
-								"border-right": "1px solid #19a967",
-							});*/
-							//$(".BMap_pop div:nth-child(8) img").attr("src",);
+							
 							//初始化下拉列表
 							$("#defaultStation").text(v.name).attr("stationId",v.id);
 		        			sessionStorage.setItem("stationId", v.id);
@@ -128,8 +127,11 @@ define(function(require,exports,module){
 						});	
 					}
 				});
-				//让所有点在视野范围内
-	    		map.setViewport(pointRet);
+
+				if(msg.chartList.length>10){
+					//让所有点在视野范围内
+	    			map.setViewport(pointRet);
+				}
 			});
 		},
 		readerMap: function(map){
@@ -199,6 +201,8 @@ define(function(require,exports,module){
 	$("#dialogExit .exitButton .active").click(function(){
 		sessionStorage.setItem("userId","");
 		sessionStorage.setItem("userName","");
+		document.cookie = setup.setCookie("userName","",-1);
+		document.cookie = setup.setCookie("userId","",-1);
 		location.href = "login.html";
 
 		$("#dialogExit, #mask").hide();

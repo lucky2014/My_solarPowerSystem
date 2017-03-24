@@ -193,10 +193,18 @@
             <dt class="red">最新版本 V1.0.6</dt>
             <dd>
                 <span>1、</span>大屏地图：<br />
-                    （1）百度地图采用白色底，与白底配合弹框依然采用白色底。<br />
-                    （2）增加功能：鼠标移到标识物弹框出来，移开弹框隐藏。<br />
-                    （3）弹框增加字段：地址，位置在最底下。<br />
+                    （1）百度地图采用白色底，与白底配合弹框依然采用白色底（直角，与左边统计相匹配）、透明。<br />
+                    （2）增加功能：鼠标移到标识物弹框出来（右边的电站信息没变），移开弹框不隐藏，防止将点击的弹框隐藏掉。点击时弹框出来，右边电站信息相应变化。<br />
+                    （3）弹框增加字段：地址，位置在第三行。<br />
                     （4）增加显示功能：地图放大时，具体的路名显示出来。<br />
+                    （5）增加地图最小放大倍数为8。<br />
+                <span>2、</span>组件发电详情图表：<br />
+                    （1）修复了没有发电的通道也显示发电量的问题。<br />
+                    （2）功率和年选项时，SMU项靠右对齐。<br />
+                <span>3、</span>修复脚部版权问题。<br />
+                <span>4、</span>电站详情页：增加收缩展开按钮，收缩天气和电站基本详情。<br />
+                <span>5、</span>所有图表单位统一：功率为大写的W，其他为kWh。<br />
+                <span>6、</span>登录页面：新增免登陆1天。<br />
             </dd>
         </dl>
         <dl>
@@ -273,69 +281,10 @@
     }
     </script>
 
-    <!--style>
-    .BMap_pop{ color: #fff;}
-    .anchorBL{  
-        display:none;  
-    }  
-    .BMap_bubble_title{  
-        color:black;  
-        font-size:13px;  
-        font-weight: bold;  
-        text-align:left;  
-    }  
-    .BMap_pop div:nth-child(1){ 
-        border-top: 1px solid #19a967;
-        border-left: 1px solid #19a967;  
-        background: #32ba7c; position: absolute; right: -99999em;
-    }  
-    .BMap_pop div:nth-child(1) div{ background: #32ba7c;}
-    .BMap_pop .BMap_top {
-        border-top: 1px solid #19a967;
-        background: #32ba7c;
-        position: absolute; right: -99999em;
-    }
-    .BMap_pop div:nth-child(3){ 
-        border-top: 1px solid #19a967;
-        border-right: 1px solid #19a967; 
-        background: #32ba7c;  
-        width:23px;  
-        width:0px;
-        height;0px;  
-        position: absolute; right: -99999em;
-    }  
-    .BMap_pop div:nth-child(3) div{  
-        background: #32ba7c;
-    }  
-    .BMap_pop .BMap_center {
-        border-left: 1px solid #19a967;
-        border-right: 2px solid #19a967;
-        background: #32ba7c;
-    }
-    .BMap_pop div:nth-child(5){  
-        border-left: 1px solid #19a967;
-        border-bottom: 1px solid #19a967;
-        background: #32ba7c;
-        position: absolute; right: -99999em;
-    }  
-    .BMap_pop div:nth-child(5) div{  
-        background: #32ba7c;
-    }  
-    .BMap_pop .BMap_bottom {
-        border-bottom: 2px solid #19a967;
-        background-color: #32ba7c;
-        position: absolute; right: -99999em;
-    }
-    .BMap_pop div:nth-child(7){  
-        background: #32ba7c;
-        border-right: 1px solid #19a967;
-        border-bottom: 1px solid #19a967; 
-        position: absolute; right: -99999em;
-    }  
-    .BMap_pop div:nth-child div(7){  
-        background: #32ba7c;  
-    }  
-    .BMap_pop div:nth-child(8) img{ background: red;}
-    </style-->
+    <style>
+    .BMap_pop{ opacity: 0.78;}
+    .BMap_pop .detail{ float: right; margin-top: -6px;}
+    .BMap_bubble_content{ line-height: 24px;}
+    </style>
 </body>
 </html>

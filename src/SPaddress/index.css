@@ -1,4 +1,5 @@
-.textSpan{width:188px; line-height:16px; padding-top:4px;}
+.textSpan{width:166px; line-height:16px; padding-top:4px;}
+.textSpan2{width:188px; line-height:16px; padding-top:4px;}
 .textLabel{ width:40px; vertical-align: top;}
 .textLabel2{ width:50px; vertical-align: top;}
 .textLabel3{ width:60px; vertical-align: top;}
@@ -9,5 +10,5 @@
 .addressParent p span{ display: inline-block;}
 .addressParent p b{ font-weight: normal; display: inline-block;}
 
-.foldUp{ position: absolute; right: 10px; bottom: 20px;}
+.foldUp{ position: absolute; right: 30px; bottom: 50px; cursor: pointer; z-index: 100;}
 

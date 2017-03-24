@@ -210,7 +210,3 @@ background: url(../imgs/line.png) 40px 8px repeat-y;}
 .versionRecord dl dt{ background: #fff; color: #06c; padding: 6px 0 6px 20px;}
 .versionRecord dl dt.red{ color: red;}
 .versionRecord dl dd span{ display: inline-block; width: 30px; position: absolute; left: 60px;}
-
-/*首页地图*/
-.BMap_pop .detail{ float: right; margin-top: -6px;}
-.BMap_bubble_content{ line-height: 24px;}

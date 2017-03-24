@@ -69,6 +69,7 @@ define(function(require, exports, module) {
                 data: {cmd:name, value:JSON.stringify(params)},
                 dataType: "json",  
                 success: function(msg){
+                    //console.log(JSON.stringify(msg,null,2));
                     if(msg.resultCode == 1000){
                         succCallback(msg.returnObject);
                     }else if(msg.resultCode == 9999){ //系统异常或故障
@@ -91,7 +92,20 @@ define(function(require, exports, module) {
         },
         isIE: function(){ //判断浏览器是不是IE，不是的话传参数到index.html
             return (!!window.ActiveXObject || "ActiveXObject" in window) ? true : false;
-        }
+        },
+        getCookie: function(name){
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]); 
+            else 
+                return null; 
+        },
+        setCookie: function(cname,cvalue,exdays){
+            var d = new Date();  
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));  
+            var expires = "expires="+d.toUTCString();  
+            document.cookie = cname + "=" + cvalue + "; " + expires;  
+        },
     };
 
     //alert(setupApp.encryptByDES(JSON.stringify({"stationId":33,"timeStamp":1484290349626}), "2017@gfd"));

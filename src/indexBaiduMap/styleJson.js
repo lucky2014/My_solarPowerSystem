@@ -214,8 +214,7 @@ define(function(require,exports,module){
             "featureType": "arterial",
             "elementType": "geometry",
             "stylers": {
-                "color": "#9ed3fc",
-                "lightness": -39
+                "lightness": 3
             }
         }, 
         {
@@ -236,7 +235,7 @@ define(function(require,exports,module){
             "featureType": "green",
             "elementType": "all",
             "stylers": {
-                "color": "#056197",
+                "color": "#97d2f5",
                 "visibility": "off"
             }
         }, 
@@ -272,14 +271,14 @@ define(function(require,exports,module){
             "featureType": "boundary",
             "elementType": "geometry.fill",
             "stylers": {
-                "color": "#029fd4"
+                "color": "#97d2f5"
             }
         }, 
         {
             "featureType": "building",
             "elementType": "all",
             "stylers": {
-                "color": "#1a5787"
+                "color": "#97d2f5"
             }
         }, 
         {
@@ -307,14 +306,15 @@ define(function(require,exports,module){
             "featureType": "administrative",
             "elementType": "labels",
             "stylers": {
-                "visibility": "on"
+                "visibility": "on",
             }
         },
         {
             "featureType": "road",
             "elementType": "labels",
             "stylers": {
-                "visibility": "on"
+                "visibility": "on",
+                "color": "#444",
             }
         }
     ];

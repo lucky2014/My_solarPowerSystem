@@ -62,6 +62,7 @@ width: 230px;  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .statDetail{ position: absolute; right: 19px; top: 10px; height: 310px; background-color: rgba(32,43,51,.6); width: 300px; z-index: 99;
 overflow: hidden;}
 
+.addressParent{ position: relative;}
 .addressParent.all{ padding-top: 2px;}
 .addressParent.all p{ padding: 0 0 0 20px; line-height: 26px; margin-bottom: 2px;}
 
