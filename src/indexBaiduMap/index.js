@@ -22,13 +22,18 @@ define(function(require,exports,module){
 	}
 	
 	//渲染头部信息
-	if(setup.isIE()){
-		$("#userInfo").html("欢迎您 "+ setup.getQueryString("userName")+" !");
+	var userName = setup.getQueryString("userName");
+	var userName1 = sessionStorage.getItem("userName");
+	if(userName){
+		$("#userInfo").html("欢迎您 "+ userName+" !");
+	}else if(userName1){
+		$("#userInfo").html("欢迎您 "+userName1+" !");
 	}else{
-		$("#userInfo").html("欢迎您 "+sessionStorage.getItem("userName")+" !");
+		$("#userInfo").html("欢迎您 "+ setup.getCookie("userName") +" !");
 	}
 	var timer = null;
-
+	var timerMap = null;
+	var timerStat = null;
 
 	var indexApp = {
 		wHeight: function(){
@@ -60,81 +65,83 @@ define(function(require,exports,module){
 		},
 		ajaxMapFn: function(){
 			//渲染标注物
-			var pointRet =[];
+			var me = this;
 			setup.commonAjax("getPowerList", setup.getParams(), function(msg){
-				map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 11);  // 初始化地图,设置中心点坐标和地图级别
-				//console.log(JSON.stringify(msg.chartList,null,2));
-				//msg.chartList.length = 7;
-				$.each(msg.chartList, function(i,v){
-					if(v.lon && v.lat){
-						var point = new BMap.Point(v.lon, v.lat);
-						pointRet.push(point);
-						var persent = v.power/1000/v.capacity;
-						var myIcon = "";
-						if(persent<0.1){
-							myIcon = new BMap.Icon("src/imgs/loc1.png", new BMap.Size(30,44));
-						}else if(0.1<persent<=0.2){
-							myIcon = new BMap.Icon("src/imgs/loc2.png", new BMap.Size(30,44));
-						}else if(0.2<persent<=0.3){
-							myIcon = new BMap.Icon("src/imgs/loc3.png", new BMap.Size(30,44));
-						}else if(0.3<persent<=0.4){
-							myIcon = new BMap.Icon("src/imgs/loc4.png", new BMap.Size(30,44));
-						}else if(0.4<persent<=0.5){
-							myIcon = new BMap.Icon("src/imgs/loc5.png", new BMap.Size(30,44));
-						}else if(0.5<persent<=0.6){
-							myIcon = new BMap.Icon("src/imgs/loc6.png", new BMap.Size(30,44));
-						}else if(0.6<persent<=0.7){
-							myIcon = new BMap.Icon("src/imgs/loc7.png", new BMap.Size(30,44));
-						}else if(0.7<persent<=0.8){
-							myIcon = new BMap.Icon("src/imgs/loc8.png", new BMap.Size(30,44));
-						}else if(0.8<persent<=0.9){
-							myIcon = new BMap.Icon("src/imgs/loc9.png", new BMap.Size(30,44));
-						}else if(0.9<persent<=1){
-							myIcon = new BMap.Icon("src/imgs/loc10.png", new BMap.Size(30,44));
-						}
-						var marker = new BMap.Marker(point, {icon:myIcon});
-						map.addOverlay(marker);  
-						
-						var opts = {
-						  width : 300,     // 信息窗口宽度
-						  height: 72,     // 信息窗口高度
-						  title : "" , // 信息窗口标题
-						  enableMessage:false,//设置允许信息窗发送短息
-						  offset: new BMap.Size(-2,-9)
-						}
-						var infoWindow = new BMap.InfoWindow("<strong>"+v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + v.name + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
-						marker.addEventListener("mouseover", function(){          
-							map.openInfoWindow(infoWindow,point); //开启信息窗口配合
-						});	
-						/*marker.addEventListener("mouseout", function(){          
-							map.closeInfoWindow(infoWindow,point); //开启信息窗口配合
-						});*/
-						marker.addEventListener("click", function(){          
-							map.openInfoWindow(infoWindow,point); //开启信息窗口配合
-							
-							//初始化下拉列表
-							$("#defaultStation").text(v.name).attr("stationId",v.id);
-		        			sessionStorage.setItem("stationId", v.id);
-						   
-						    clearInterval(timer);
-					        timer = null;
-					        indexSideApp.rendStationDetail(v.id);  //根据新电站ID首次渲染电站详情
-					         //60秒刷新仪表
-					        
-					        timer = setInterval(function(){
-					            indexSideApp.readerGauge(v.id);
-					        }, 60000);
-						});	
-					}
-				});
-
-				if(msg.chartList.length>10){
-					//让所有点在视野范围内
-	    			map.setViewport(pointRet);
-				}
+				me.render(msg);
+				var msg = JSON.stringify(msg);
+				setup.setCookie("getPowerList", msg, 1);
+				sessionStorage.setItem("getPowerList", msg);
 			});
 		},
-		readerMap: function(map){
+		render: function(msg){
+			map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 11);  // 初始化地图,设置中心点坐标和地图级别
+			var pointRet =[];
+			$.each(msg.chartList, function(i,v){
+				if(v.lon && v.lat){
+					var point = new BMap.Point(v.lon, v.lat);
+					pointRet.push(point);
+					var persent = v.power/1000/v.capacity;
+					var myIcon = "";
+					if(persent<0.1){
+						myIcon = new BMap.Icon("src/imgs/loc1.png", new BMap.Size(30,44));
+					}else if(0.1<persent<=0.2){
+						myIcon = new BMap.Icon("src/imgs/loc2.png", new BMap.Size(30,44));
+					}else if(0.2<persent<=0.3){
+						myIcon = new BMap.Icon("src/imgs/loc3.png", new BMap.Size(30,44));
+					}else if(0.3<persent<=0.4){
+						myIcon = new BMap.Icon("src/imgs/loc4.png", new BMap.Size(30,44));
+					}else if(0.4<persent<=0.5){
+						myIcon = new BMap.Icon("src/imgs/loc5.png", new BMap.Size(30,44));
+					}else if(0.5<persent<=0.6){
+						myIcon = new BMap.Icon("src/imgs/loc6.png", new BMap.Size(30,44));
+					}else if(0.6<persent<=0.7){
+						myIcon = new BMap.Icon("src/imgs/loc7.png", new BMap.Size(30,44));
+					}else if(0.7<persent<=0.8){
+						myIcon = new BMap.Icon("src/imgs/loc8.png", new BMap.Size(30,44));
+					}else if(0.8<persent<=0.9){
+						myIcon = new BMap.Icon("src/imgs/loc9.png", new BMap.Size(30,44));
+					}else if(0.9<persent<=1){
+						myIcon = new BMap.Icon("src/imgs/loc10.png", new BMap.Size(30,44));
+					}
+					var marker = new BMap.Marker(point, {icon:myIcon});
+					map.addOverlay(marker);  
+					
+					var opts = {
+					  width : 300,     // 信息窗口宽度
+					  height: 72,     // 信息窗口高度
+					  title : "" , // 信息窗口标题
+					  enableMessage:false,//设置允许信息窗发送短息
+					  offset: new BMap.Size(-2,-9)
+					}
+					var infoWindow = new BMap.InfoWindow("<strong>"+v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + setup.ToUnicode(v.name) + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
+					marker.addEventListener("mouseover", function(){          
+						map.openInfoWindow(infoWindow,point); //开启信息窗口配合
+					});	
+					
+					marker.addEventListener("click", function(){          
+						map.openInfoWindow(infoWindow,point); //开启信息窗口配合
+						
+						//初始化下拉列表
+						$("#defaultStation").text(v.name).attr("stationId",v.id);
+	        			sessionStorage.setItem("stationId", v.id);
+					   
+					    clearInterval(timer);
+				        timer = null;
+				        indexSideApp.rendStationDetail(v.id);  //根据新电站ID首次渲染电站详情
+				        //60秒刷新仪表
+				        timer = setInterval(function(){
+				            indexSideApp.readerGauge(v.id);
+				        }, 60000);
+					});	
+				}
+			});
+
+			if(msg.chartList.length>10){
+				//让所有点在视野范围内
+    			map.setViewport(pointRet);
+			}
+		},
+		init: function(map){
 			var me = this;
 			$("#myMap").css("background","none");
 	        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
@@ -144,22 +151,37 @@ define(function(require,exports,module){
 				styleJson:styleJson,
 			});
 
-			//渲染标注物
-			me.ajaxMapFn();
+			var msg = setup.getCookie("getPowerList") || sessionStorage.getItem("getPowerList");
+			if(msg){
+				msg = JSON.parse(msg);
+				me.render(msg);
+				setup.setCookie("getPowerList", "", -1);
+				sessionStorage.setItem("getPowerList", "");
 
-			//地图60秒刷新
-			var timerMap = null;
-		    clearInterval(timerMap);
-		    timerMap = null;
-			
-			//30秒总体数据
-			timerMap = setInterval(function(){
+				//地图60秒刷新
+			    clearInterval(timerMap);
+			    timerMap = null;
+				
+				//60秒刷新地图
+				timerMap = setInterval(function(){
+					me.ajaxMapFn();
+				}, 60000);
+			}else{
 				me.ajaxMapFn();
-			}, 60000);
+
+				//地图60秒刷新
+			    clearInterval(timerMap);
+			    timerMap = null;
+				
+				//60秒刷新地图
+				timerMap = setInterval(function(){
+					me.ajaxMapFn();
+				}, 60000);
+			}
 		}
 	};
 
-	indexApp.readerMap(map);
+	indexApp.init(map);
 	getAllTotal();
 	
 	//点击右边滑动按钮,如果不重新init地图的话，地图放大倍数后，高度不够，有被截断的感觉
@@ -203,6 +225,7 @@ define(function(require,exports,module){
 		sessionStorage.setItem("userName","");
 		document.cookie = setup.setCookie("userName","",-1);
 		document.cookie = setup.setCookie("userId","",-1);
+		document.cookie = setup.setCookie("passWord","",-1);
 		location.href = "login.html";
 
 		$("#dialogExit, #mask").hide();
@@ -211,15 +234,5 @@ define(function(require,exports,module){
 	$("#dialogExit .exitButton .cancel,#dialogExit .close").click(function(){
 		$("#dialogExit, #mask").hide();
 		$("body").attr("style","");
-		//$(".versionRecord").hide(); //版权记录隐藏
 	});
-
-	var timerStat = null;
-    clearInterval(timerStat);
-    timerStat = null;
-	
-	//30秒总体数据刷新
-	timerStat = setInterval(function(){
-		getAllTotal();
-	}, 30000);
 });

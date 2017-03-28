@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var box = Engine.init();
         require("src/common.swiper/swiper.min.css");
     var swiperTpl = require("src/common.swiper/swiper.tpl");
+    var swiperIndexBigPaginationTpl = require("src/common.swiper/swiperIndexBig.tpl");
     var Swiper = require("swiper");
 
 
@@ -46,6 +47,22 @@ define(function(require, exports, module) {
                 autoplay: 6000,
                 autoplayDisableOnInteraction: false,
             }); 
+        },
+        swiperIndexBig: function(banner){
+            box.render($("#swiperIndexBig"), banner, swiperIndexBigPaginationTpl);
+            var len = banner.length;
+            
+            var swiper = new Swiper('#swiperIndexBig', {
+                pagination: '.swiper-pagination',
+                spaceBetween: 0,
+                centeredSlides: true, //活动块居中
+                autoplay: 30000
+            }); 
+
+            $("#swiperIndexBig").show();
+            $("#swiperIndexBig .swiper-slide").css({
+                width: "100%"
+            });
         }
     };
     

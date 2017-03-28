@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>光伏发电并网系统监控</title>
+    <style>
+    /*全屏展示banner*/
+    #swiperIndexBig{ position: fixed; left: 0; top: 0; right:0; bottom: 0; z-index: 1000}
+    #swiperIndexBig img{ width: 100%; height: 100%;}
+    .backToIndex{ position: fixed; left:20px; top: 20px; display: inline-block; z-index: 1001; cursor: pointer;}
+    </style>
+</head>
+<body>
+	<!--全屏展示banner-->
+    <div id="swiperIndexBig" class="hide"></div>
+    <a class="backToIndex hide"><img src="src/imgs/backToIndex.png" /></a>
+
+    
+    <script type="text/javascript" src="src/common.lib/sea.js"></script>
+    <script type="text/javascript" src="src/common.lib/seajs-text/seajs-text-1.1.1/seajs-text.js"></script>
+    <script type="text/javascript" src="src/config.js"></script>
+    <script>
+        seajs.use("src/common.lib/sea_css", function(){
+            seajs.use("src/SPswiperBig/index");
+        });
+    </script>
+</body>
+</html>

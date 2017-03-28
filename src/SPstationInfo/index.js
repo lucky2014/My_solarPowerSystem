@@ -127,6 +127,7 @@ define(function(require, exports, module) {
         var me = $(this);
         me.removeClass("all");
         $(".weather").show();
+        me.find("p.baseHide").addClass("hide");
     });
 
     $(".foldUp").click(function(){

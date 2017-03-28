@@ -47,7 +47,12 @@ define(function(require, exports, module) {
                 
                 //-----------------渲染地址-----------------  
                 box.render($(".addressParent"), msg, addressTpl);
-                $(".hasLink").attr("href","stationInfo.html?stationId="+stationId+"&name="+msg.name)
+                $(".hasLink").attr("href","stationInfo.html?stationId="+stationId+"&name="+setup.ToUnicode(msg.name));
+
+                //隔120秒后播放大图
+                setTimeout(function(){
+                    location.href = "swiperBig.html?stationId="+$("#defaultStation").attr("stationId")+"&name="+setup.ToUnicode($("#defaultStation").html());
+                },160000);
             });
 
             

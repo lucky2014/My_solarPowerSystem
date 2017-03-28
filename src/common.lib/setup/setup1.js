@@ -93,4 +93,10 @@ var setupApp = {
         var expires = "expires="+d.toUTCString();  
         document.cookie = cname + "=" + cvalue + "; " + expires;  
     },
+    ToUnicode: function(str){
+        return escape(str).toLocaleLowerCase().replace(/%u/gi, '\\u');
+    },
+    ToGB2312: function (str) {
+        return unescape(str.replace(/\\u/gi, '%u'));
+    } 
 };

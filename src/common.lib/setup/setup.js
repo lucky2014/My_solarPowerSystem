@@ -47,11 +47,12 @@ define(function(require, exports, module) {
             };
             data = $.extend({},data,theData);
 
-            if(me.isIE()){
-                userId = (me.getQueryString("userId"))? me.getQueryString("userId") : 0;
+            if(me.getCookie("userId")){
+                userId = me.getCookie("userId");
             }else{
-                userId = (sessionStorage.getItem("userId")) ? sessionStorage.getItem("userId") : 0;
+                userId = (me.getQueryString("userId"))? me.getQueryString("userId") : ((sessionStorage.getItem("userId")) ? sessionStorage.getItem("userId") : 0);
             }
+            
 
             return {
                 version: "1.0.0",
@@ -69,7 +70,6 @@ define(function(require, exports, module) {
                 data: {cmd:name, value:JSON.stringify(params)},
                 dataType: "json",  
                 success: function(msg){
-                    //console.log(JSON.stringify(msg,null,2));
                     if(msg.resultCode == 1000){
                         succCallback(msg.returnObject);
                     }else if(msg.resultCode == 9999){ //系统异常或故障
@@ -106,6 +106,12 @@ define(function(require, exports, module) {
             var expires = "expires="+d.toUTCString();  
             document.cookie = cname + "=" + cvalue + "; " + expires;  
         },
+        ToUnicode: function(str){
+            return escape(str).toLocaleLowerCase().replace(/%u/gi, '\\u');
+        },
+        ToGB2312: function (str) {
+            return unescape(str.replace(/\\u/gi, '%u'));
+        } 
     };
 
     //alert(setupApp.encryptByDES(JSON.stringify({"stationId":33,"timeStamp":1484290349626}), "2017@gfd"));

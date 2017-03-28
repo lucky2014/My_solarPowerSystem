@@ -233,11 +233,9 @@ define(function(require, exports, module) {
                         }else if(dateType == 4){
                             data.push({value:v.energy/1000,date: v.reportDate.slice(0,7)});
                             time.push(v.reportDate.slice(0,7));
-                            //unit = "MWh";
                         }else{
                             data.push({value:v.energy/1000,date: v.reportDate.slice(0,4)});
                             time.push(v.reportDate.slice(0,4));
-                            //unit = "MWh";
                         }
 
                         all += (v.energy)/1000;
@@ -269,12 +267,7 @@ define(function(require, exports, module) {
                         tooltip : {
                             trigger: 'axis',
                             formatter : function (params) {
-                                if(dateType == 4 || dateType == 5){
-                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"kWh" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0kWh";
-                                }else{
-                                    return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"Wh" : params[0].data.date + '<br />'+params[0].seriesName +" : 0Wh";
-                                }
-                                
+                                return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"Wh" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0Wh";
                             },
                             backgroundColor:"#357a69",
                             borderColor: "#1fd1cb",

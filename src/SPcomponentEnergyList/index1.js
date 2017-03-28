@@ -94,6 +94,7 @@ var componentApp = {
                 var invName = [];
                 var dataBase = [[],[],[],[]];
                 var series = [];
+                var stdPower =[];
                 var len = msg.maxInvLength;
                 $.each(msg.listCmpCharts, function(i,v){
                     invName.push({value:v.invName});
@@ -101,8 +102,8 @@ var componentApp = {
                     for(var j=0; j< len; j++){
                         var ord = j+1;
                         ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
-                        channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
-                        dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
+                        channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)+"W");
+                        dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
                     }
                     stdPower.push({value: v.stdPower/1000});
                 });
@@ -114,20 +115,57 @@ var componentApp = {
                             itemStyle: {
                                 normal: {color: me.color[i]}
                             },
-                            name:'平均功率',
+                            name:'功率',
                             data: dataBase[i],
                         });
                     }
                 }
 
+                series.push({
+                    type: 'line',
+                    itemStyle: {
+                        normal: {color: '#f5e105'}
+                    },
+                    name:'标称功率',
+                    data: stdPower
+                });
+
                 var option = {
+                    title: {
+                        text: "功率",
+                        left: "center",
+                        textBaseline: "top",
+                        textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            fontWeight: 'normal',
+                            fontSize: 16,
+                            color: '#27bb77',
+                        },
+                        subtext: "",
+                        padding: [6,0,0,0]
+                    },
                     dataZoom: me.dataZoom(msg),
+                    visualMap: {
+                        show: false,
+                        min: 0,
+                        max: stdPower[0].value,
+                        left: 'left',
+                        top: 'bottom',
+                        text: ['高','低'],           // 文本，默认为数值文本
+                        calculable: true,
+                        color: ['#35d32d','#2bd64b','#2bd869', '#2adb8f', '#28ddad', '#36e0cc','#34e2e2','#33c4e5','#31b1e8','#2f8cea']
+                    },
                     tooltip : {
                         trigger: 'axis',
                         formatter : function (params) {
                             var str = "";
                             for(var i=0; i<params[0].data.channleObj.length; i++){
                                 str += params[0].data.channleObj[i]+"<br />";
+                            }
+
+                            for(var i=0;i<params.length;i++){
+                                if(params[i].seriesName == "标称功率"){
+                                    str += "标称功率："+ format((params[i].value*1000).toFixed(0))+"W";
+                                }
                             }
                             str = "逆变器名称："+params[0].name + '<br />'+ str ;
                             return str;
@@ -159,11 +197,10 @@ var componentApp = {
                                 show: true,
                                 interval: "auto",
                                 lineStyle: {
-                                    color: ['#455360']
+                                    color: ['#313b42']
                                 }
                             },
                             axisLine: {
-                                show: false,
                                 lineStyle: {
                                     color: ['#09787d']
                                 }
@@ -483,7 +520,7 @@ var componentApp = {
             myDialogLine.setOption(listCmpChannelEnergyBaseOption);
         setupApp.commonAjax("listCmpChannelEnergy", setupApp.getParams(params1), function(msg){
             $(".componentDialogMask").hide();
-            if(msg.channelChartsList.length>0){
+            if(msg && msg.channelChartsList.length>0){
                 var time = [];
                 var dataBase = [[],[],[],[]];
                 var avgEnergy = [];
@@ -492,20 +529,17 @@ var componentApp = {
 
                 var series = [];
                 
-                
                 $.each(msg.channelChartsList, function(i,v){
                     time.push(v.reportDate.slice(0,10));
                     var channleObj = [];
                     for(var j=0; j<len; j++){
-                        var ord = msg.channelChartsList[i].cmpChannleList[j].ord;
-                        ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+msg.channelChartsList[i].cmpChannleList[j].ord+"</span>";
-                        channleObj.push(ord + "：" + format(msg.channelChartsList[i].cmpChannleList[j].energy)+"Wh");
-                        dataBase[j].push((msg.channelChartsList[i].cmpChannleList[j].energy)/1000);
+                        var ord = j;
+                        ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
+                        channleObj.push(ord + "：" + format(msg.channelChartsList[i].cmpChannleList[j] ? msg.channelChartsList[i].cmpChannleList[j].energy : 0)+"Wh");
+                        dataBase[j].push((msg.channelChartsList[i].cmpChannleList[j] ? msg.channelChartsList[i].cmpChannleList[j].energy : 0)/1000);
                     }
                     avgEnergy.push({value: v.avgEnergy/1000, channleObj: channleObj});
                 });
-
-                
 
                 var color = ["#ee7474","#7a9ee9","#a267ff","#3fd69f"];
                 for(var i=0; i<4; i++){

@@ -114,6 +114,7 @@ define(function(require, exports, module) {
         dateType1Fn: function(params, myline){ //组件发电详情功率的取值是
             var me = this;
             setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
+                //console.log(JSON.stringify(msg,null,2));
                 $(".componentMask").hide();
                 if(msg && msg.listCmpCharts.length>0){
                     var invName = [];
@@ -127,8 +128,8 @@ define(function(require, exports, module) {
                         for(var j=0; j< len; j++){
                             var ord = j+1;
                             ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
-                            channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
-                            dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
+                            channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)+"W");
+                            dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
                         }
                         stdPower.push({value: v.stdPower/1000});
                     });
@@ -355,6 +356,7 @@ define(function(require, exports, module) {
             var myline = echarts.init(document.getElementById('componentPowerSum'));
             myline.setOption(defaultOption);
             setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
+                //console.log(JSON.stringify(msg,null,2));
                 $(".componentMask").hide();
                 if(msg && msg.listCmpCharts.length>0){
                     var invName = [];
@@ -535,7 +537,7 @@ define(function(require, exports, module) {
                 myDialogLine.setOption(listCmpChannelEnergyBaseOption);
             setup.commonAjax("listCmpChannelEnergy", setup.getParams(params1), function(msg){
                 $(".componentDialogMask").hide();
-                if(msg.channelChartsList.length>0){
+                if(msg && msg.channelChartsList.length>0){
                     var time = [];
                     var dataBase = [[],[],[],[]];
                     var avgEnergy = [];
@@ -544,15 +546,14 @@ define(function(require, exports, module) {
 
                     var series = [];
                     
-                    
                     $.each(msg.channelChartsList, function(i,v){
                         time.push(v.reportDate.slice(0,10));
                         var channleObj = [];
                         for(var j=0; j<len; j++){
-                            var ord = msg.channelChartsList[i].cmpChannleList[j].ord;
-                            ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+msg.channelChartsList[i].cmpChannleList[j].ord+"</span>";
-                            channleObj.push(ord + "：" + format(msg.channelChartsList[i].cmpChannleList[j].energy)+"Wh");
-                            dataBase[j].push((msg.channelChartsList[i].cmpChannleList[j].energy)/1000);
+                            var ord = j;
+                            ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
+                            channleObj.push(ord + "：" + format(msg.channelChartsList[i].cmpChannleList[j] ? msg.channelChartsList[i].cmpChannleList[j].energy : 0)+"Wh");
+                            dataBase[j].push((msg.channelChartsList[i].cmpChannleList[j] ? msg.channelChartsList[i].cmpChannleList[j].energy : 0)/1000);
                         }
                         avgEnergy.push({value: v.avgEnergy/1000, channleObj: channleObj});
                     });
@@ -643,6 +644,7 @@ define(function(require, exports, module) {
             });
         },
         onclickFn: function(myline,msg){ //点击组件发电详情
+            console.log(JSON.stringify(msg,null,2));
             var me = this;
             myline.on("click", function(params){
                 $("body").css({overflow: "hidden",height:"100%"});
@@ -650,7 +652,7 @@ define(function(require, exports, module) {
                 $("#mask, .dialogWrap").show();
 
                 //判断点击的是不是横坐标轴
-                $.each(msg, function(i,v){
+                $.each(msg.listCmpCharts, function(i,v){
                     if(v.invName == params.value){
                         me.readerDialogFn(v.cmpCharts[0].cmpId, v.invId)
                     }

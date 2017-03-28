@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 		        box.render($(".pwsStat"), msg, stationList);
 		        var stationId = setup.getQueryString("stationId");
 		        if(stationId){
-		        	$("#defaultStation").text(setup.getQueryString("name")).attr("stationId",stationId);
+		        	$("#defaultStation").text(setup.ToGB2312(setup.getQueryString("name"))).attr("stationId",stationId);
 		        	sessionStorage.setItem("stationId", stationId);
 		        	callback && callback(stationId);
 		        }else{

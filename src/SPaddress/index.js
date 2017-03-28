@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     		$("#capacityVal b").html(formatData(msg.capacityVal, "kWp", 3).num + formatData(msg.capacityVal,"kWp", 3).unit); 
     		$("#smuNum b").html(formatData(msg.smuNum, "个", 4).num + formatData(msg.smuNum, "个", 4).unit); 
     		$("#cmpNum b").html(formatData(msg.cmpNum, "个", 4).num + formatData(msg.cmpNum, "个", 4).unit);
-    		$("#smuCode b").html(msg.smuCode); 
+    		$("#smuCode b").html(msg.smuId); 
     		$("#regTime b").html(msg.regTime.slice(0,10)); 
     		$("#devCompany b").html(msg.devCompany); 
     		$("#location b").html(msg.location); 
