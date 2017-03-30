@@ -99,12 +99,12 @@ define(function(require, exports, module) {
             $("#myGauge").css("width",myGaugeW);
 
             if(wHeight>900){
-                $("#myGauge,.pmParent").css("height","254px");
-                $("#myPolar").css("height","216px");
+                $("#myGauge,.pmParent").css({"height":"254px"});
+                $("#myPolar").css({"height":"216px","min-width":"222px"});
                 $("#refreshTime.refreshTimeIndex").css("top","147px");
             }else{
-                $("#myGauge,.pmParent").css("height","218px");
-                $("#myPolar").css("height","180px");
+                $("#myGauge,.pmParent").css({"height":"218px"});
+                $("#myPolar").css({"height":"180px","min-width":"222px"});
             }
 
             var myGauge = echarts.init(document.getElementById(obj1));

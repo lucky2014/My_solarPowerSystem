@@ -34,7 +34,7 @@ define(function(require,exports,module){
 			var url = setup.getQueryString("url");
 			if(url){
 				if(setup.isIE()){ //如果是IE，传参数
-			    	location.href = url + "?" +msg.userName+"&userId="+msg.userId;
+			    	location.href = url + "?userName=" +msg.userName+"&userId="+msg.userId;
 			    }else{
 			    	location.href = url;
 			    }

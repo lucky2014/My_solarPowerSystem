@@ -1,4 +1,4 @@
-var defaultOption1 = {
+var defaultOption = {
     title: {
         text: "",
         left: "center",

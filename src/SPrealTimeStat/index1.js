@@ -38,7 +38,7 @@ var chartsSum = {
                 var data = [];
                 $.each(msg.chartResults, function(i,v){
                     time.push(v.reportDate.split(" ")[1].slice(0,5));
-                    data.push(v.power);
+                    data.push({value:v.power/10000, date: v.reportDate.slice(0,16)});
                 });
                 var option = {
                     title: {
@@ -63,17 +63,6 @@ var chartsSum = {
                         calculable : true,
                         color: ['#35d32d','#2bd64b','#2bd869','#2adb8f','#28ddad', '#36e0cc','#34e2e2','#33c4e5','#31b1e8', '#2f8cea']
                     },
-                    tooltip : {
-                        trigger: 'axis',
-                        formatter : function (params) {
-
-                            return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + ((params[0].value*1000).toFixed(0) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,') +"W" : params[0].data.date+ '<br />'+ params[0].seriesName +" : 0W";
-                        },
-                        backgroundColor:"#357a69",
-                        borderColor: "#1fd1cb",
-                        borderWidth: 1,
-                        enterable: true
-                    },
                     xAxis : {
                         data : time,
                         axisLine: {
@@ -81,6 +70,16 @@ var chartsSum = {
                                 color: ['#09787d']
                             }
                         },
+                    },
+                    tooltip : {
+                        trigger: 'axis',
+                        formatter : function (params) {
+                            return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"W" : params[0].data.date+ '<br />'+ params[0].seriesName +" : 0W";
+                        },
+                        backgroundColor:"#357a69",
+                        borderColor: "#1fd1cb",
+                        borderWidth: 1,
+                        enterable: true
                     },
                     yAxis : {
                         name: "kW",
@@ -106,12 +105,12 @@ var chartsSum = {
                         },
                     ]
                 };  
-
-                option = $.extend({},defaultOption1,option); 
+                
+                option = $.extend({}, defaultOption, option);
                 myline.setOption(option);
             }else{
                 var mylineNull = echarts.init(document.getElementById('myline'));
-                mylineNull.setOption(defaultOption1);
+                mylineNull.setOption(defaultOption);
                 $(".realTimeEnpty").show();
             } 
         });
@@ -207,69 +206,68 @@ var chartsSum = {
     renderBar: function(dateType, params, titleType){ //出来实时的图表，其他年月日总的渲染类型都一样
         var me = this;
         var myline = echarts.init(document.getElementById('myline'));
-        myline.setOption(defaultOption1);
+        myline.setOption(defaultOption);
         $(".realTimeEnpty").hide();
         setupApp.commonAjax("getChartData", setupApp.getParams(params), function(msg){
             if(msg.chartResults && msg.chartResults.length>0){
-                var time = [];
-                var data = [];
-                var all = 0;
-                var unit = "kWh";
-                $.each(msg.chartResults, function(i,v){
-                    if(dateType == 2){
-                        time.push(v.reportDate.slice(11,16));
-                        data.push({value:v.energy/1000,date: v.reportDate.slice(0,16)});
-                    }else if(dateType == 3){
-                        data.push({value:v.energy/1000,date: v.reportDate.slice(0,10)});
-                        time.push(v.reportDate.slice(5,10));
-                    }else if(dateType == 4){
-                        data.push({value:v.energy/1000,date: v.reportDate.slice(0,7)});
-                        time.push(v.reportDate.slice(0,7));
-                    }else{
-                        data.push({value:v.energy/1000,date: v.reportDate.slice(0,4)});
-                        time.push(v.reportDate.slice(0,4));
-                    }
+                    var time = [];
+                    var data = [];
+                    var all = 0;
+                    var unit = "kWh";
+                    $.each(msg.chartResults, function(i,v){
+                        if(dateType == 2){
+                            time.push(v.reportDate.slice(11,16));
+                            data.push({value:v.energy/1000,date: v.reportDate.slice(0,16)});
+                        }else if(dateType == 3){
+                            data.push({value:v.energy/1000,date: v.reportDate.slice(0,10)});
+                            time.push(v.reportDate.slice(5,10));
+                        }else if(dateType == 4){
+                            data.push({value:v.energy/1000,date: v.reportDate.slice(0,7)});
+                            time.push(v.reportDate.slice(0,7));
+                        }else{
+                            data.push({value:v.energy/1000,date: v.reportDate.slice(0,4)});
+                            time.push(v.reportDate.slice(0,4));
+                        }
 
-                    all += (v.energy)/1000;
-                });
+                        all += (v.energy)/1000;
+                    });
 
-                all = me.formatterData(all).num + me.formatterData(all).unit;
+                    all = me.formatterData(all, "kWh", 1).num + me.formatterData(all, "kWh", 1).unit;
 
-                var option = {
-                    title: {
-                        text: titleType,
-                        left: "center",
-                        textBaseline: "top",
-                        textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                            fontWeight: 'normal',
-                            fontSize: 16,
-                            color: '#27bb77',
+                    var option = {
+                        title: {
+                            text: titleType,
+                            left: "center",
+                            textBaseline: "top",
+                            textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontWeight: 'normal',
+                                fontSize: 16,
+                                color: '#27bb77',
+                            },
+                            subtext: all,
+                            padding: [6,0,0,0]
                         },
-                        subtext: all,
-                        padding: [6,0,0,0]
-                    },
-                    tooltip : {
-                        trigger: 'axis',
-                        formatter : function (params) {
-                            return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + ((params[0].value*1000).toFixed(0) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,') +"Wh" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0Wh";
-                        },
-                        backgroundColor:"#357a69",
-                        borderColor: "#1fd1cb",
-                        borderWidth: 1,
-                        enterable: true
-                    },
-                    xAxis : [
-                        {
+                        color: ["#5bb39e"],
+                        xAxis : {
                             data : time,
+                            boundaryGap: true,
                             axisLine: {
                                 lineStyle: {
                                     color: ['#09787d']
                                 }
                             },
-                        }
-                    ],
-                    yAxis: [
-                        {
+                        },
+                        tooltip : {
+                            trigger: 'axis',
+                            formatter : function (params) {
+                                return (params[0].value) ? params[0].data.date + '<br />' +params[0].seriesName + ' : ' + format(params[0].value*1000) +"Wh" : params[0].data.date +'<br />'+ params[0].seriesName +" : 0Wh";
+                            },
+                            backgroundColor:"#357a69",
+                            borderColor: "#1fd1cb",
+                            borderWidth: 1,
+                            enterable: true
+                        },
+                        yAxis : {
                             name: unit,
                             splitLine:{
                                 show: true,
@@ -292,22 +290,22 @@ var chartsSum = {
                                     }
                                 }
                             }
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'发电量',
-                            type: 'bar',
-                            data: data
                         },
-                    ]
-                }; 
+                        series : [
+                            {
+                                name:'发电量',
+                                type: 'bar',
+                                data: data
+                            },
+                        ]
+                    };
+                    
+                    option = $.extend({}, defaultOption, option);
 
-                option = $.extend({}, defaultOption1, option);
-                myline.setOption(option);
-            }else{
-                $(".realTimeEnpty").show();
-            }
+                    myline.setOption(option);
+                }else{
+                    $(".realTimeEnpty").show();
+                }
         });
     }
 };

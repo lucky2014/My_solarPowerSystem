@@ -7,7 +7,7 @@ define(function(require,exports,module){
 	var indexSideApp = require("src/indexSide/index");
 
 	// 百度地图API功能
-	var map = new BMap.Map("myMap",{minZoom:8});    // 创建Map实例
+	var map = new BMap.Map("myMap",{minZoom:4,maxZoom:13});    // 创建Map实例
 
 	var vHeight = $(window).height(); //屏幕高度，初始化时需要屏幕的高度
 	//获取地图的高度
@@ -25,11 +25,11 @@ define(function(require,exports,module){
 	var userName = setup.getQueryString("userName");
 	var userName1 = sessionStorage.getItem("userName");
 	if(userName){
-		$("#userInfo").html("欢迎您 "+ userName+" !");
+		$("#userInfo").html("欢迎您, "+ userName+" !");
 	}else if(userName1){
-		$("#userInfo").html("欢迎您 "+userName1+" !");
+		$("#userInfo").html("欢迎您, "+userName1+" !");
 	}else{
-		$("#userInfo").html("欢迎您 "+ setup.getCookie("userName") +" !");
+		$("#userInfo").html("欢迎您, "+ setup.getCookie("userName") +" !");
 	}
 	var timer = null;
 	var timerMap = null;
@@ -76,6 +76,7 @@ define(function(require,exports,module){
 		render: function(msg){
 			map.centerAndZoom(new BMap.Point(msg.chartList[0].lon, msg.chartList[0].lat), 11);  // 初始化地图,设置中心点坐标和地图级别
 			var pointRet =[];
+			//msg.chartList.length = 1;
 			$.each(msg.chartList, function(i,v){
 				if(v.lon && v.lat){
 					var point = new BMap.Point(v.lon, v.lat);
@@ -108,7 +109,7 @@ define(function(require,exports,module){
 					
 					var opts = {
 					  width : 300,     // 信息窗口宽度
-					  height: 72,     // 信息窗口高度
+					  minHeight: 72,     // 信息窗口高度
 					  title : "" , // 信息窗口标题
 					  enableMessage:false,//设置允许信息窗发送短息
 					  offset: new BMap.Size(-2,-9)
@@ -178,6 +179,31 @@ define(function(require,exports,module){
 					me.ajaxMapFn();
 				}, 60000);
 			}
+		},
+		isBig: function(me){
+			$(".wrap").addClass("big");
+			me.addClass("big");
+			//地图的高度变化
+			var h = $(".wrapRight").height()-80;
+			$(".mapParent").css({height: h});
+			$("#myMap").css({"left":0,top: 0});
+			
+			$(".wrapRight").hide();
+		},
+		isNotBig: function(me){
+			$(".wrap").removeClass("big");
+			me.removeClass("big");
+
+			////地图的高度变化
+			if(vHeight>900){
+				$("#myMap").css({"left":0,top: 0,height:"800px"});
+				$(".mapParent").css("height", vHeight-210);
+			}else{
+				$("#myMap").css({"left":0,top: "-100px"});
+				$(".mapParent").css("height", vHeight-190);
+			}
+			
+			$(".wrapRight").show();
 		}
 	};
 
@@ -185,11 +211,17 @@ define(function(require,exports,module){
 	getAllTotal();
 	
 	//点击右边滑动按钮,如果不重新init地图的话，地图放大倍数后，高度不够，有被截断的感觉
+	/*var isBig = setup.getQueryString("isBig");
+	if(isBig && isBig == 1){
+		indexApp.isBig($(".slideBt"));
+	}else if(isBig && isBig == 0){
+		indexApp.isNotBig($(".slideBt"));
+	}*/
 	$(".slideBt").click(function(){
 		var me = $(this);
 		if(me.hasClass("big")){
 			$(".wrap").toggleClass("big");
-			$(this).toggleClass("big");
+			me.toggleClass("big");
 			//地图的高度变化
 			var h = $(".wrapRight").height()-80;
 			$(".mapParent").css({height: h});
@@ -198,7 +230,7 @@ define(function(require,exports,module){
 			$(".wrapRight").show();
 		}else{
 			$(".wrap").toggleClass("big");
-			$(this).toggleClass("big");
+			me.toggleClass("big");
 
 			////地图的高度变化
 			if(vHeight>900){

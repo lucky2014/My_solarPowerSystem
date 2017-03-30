@@ -1,10 +1,11 @@
 *{ margin: 0; padding: 0; font-family: 'microsoft yahei'; font-size: 14px; list-style: none;}
-body{ background: #202b33; min-width: 1200px;}
+body{ background: #202b33; min-width: 1200px; position: relative;}
 .hide{ display: none;}
 
 .wrap{ width: 62%; position: relative;}
 .mapParent{ overflow: hidden; position: relative; left: 0; width: 100%}
 .big{ width: 100%;}
+img{ border: none;}
 /*右边*/
 .wrapRight{ position:absolute; left: 62%; top:64px; border-left: 1px solid #303a41; width: 37%; overflow: hidden;
 display: none; background: #202b33;}
@@ -102,9 +103,9 @@ right: 0;bottom: 0;z-index: 66; height: 180px; overflow: hidden; border-left: 1p
 .pmParent{ clear: both; overflow: hidden; border-bottom: 1px solid #303a41; position: relative;}
 .powerMeter,.oneStationStat{ float: left; width: 50%; position: relative;}
 .oneStationStat{ padding-top: 2px; padding-bottom:6px;}
-.oneStationStat li{ clear: both; background: #25364c; overflow: hidden; text-align: center; margin-top: 6px; color: #fff;}
+.oneStationStat li{ clear: both; background: #25364c; overflow: hidden; text-align: center; margin-top: 6px; color: #fff; min-height: 46px;}
 .oneStationStat li div{ float:left; background: #172541; width:20%; padding: 10px 0 6px;}
-.oneStationStat li div img{ width: 56%;}
+.oneStationStat li div img{ width: 56%; min-height: 26px;}
 .oneStationStat li span{ float:left; width:36%; padding-top: 16px;}
 .oneStationStat li h4{ float:left; width:44%; padding-top: 16px;}
 

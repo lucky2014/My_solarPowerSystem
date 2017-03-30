@@ -2,6 +2,7 @@
 a{ cursor: pointer;}
 body{ background: #202b33; min-width: 1002px;}
 .hide{ display: none;}
+img{ border: none;}
 
 .infoWrapHeader{ max-width: 1900px; margin: 10px auto; border:none; margin-bottom:0; height:40px;}
 .infoWrap{ max-width: 1900px; margin: 10px auto; border-bottom: 1px solid #303a41; overflow: hidden; position: relative;}
@@ -11,11 +12,11 @@ body{ background: #202b33; min-width: 1002px;}
 .componentPowerDetail{ position: relative; margin-top: 20px;}
 
 /*仪表*/
-#powerMeter{ float: left; width: 30%; position: relative;}
+#powerMeter{ float: left; width: 28%; position: relative;}
 #myPolar{ position: absolute; left: 0; top: 0}
 
 #totalSum{ float: left; width: 42%;}
-#saveSum{ float: left; width: 28%;}
+#saveSum{ float: left; width: 30%;}
 
 #totalSum li{ float: left; width: 30%; margin-right: 3%; display: inline; background: #2c4052; color: #fff; text-align: center; 
 padding: 10px 0; height: 249px;}
@@ -59,7 +60,7 @@ background: #384b59;border-radius: 2px;}
 width: 230px;  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .componentList em{ border:5px solid transparent;border-top: 6px solid #fff;float: right;margin-right: 8px;margin-top: 9px;}
 
-.statDetail{ position: absolute; right: 19px; top: 10px; height: 310px; background-color: rgba(32,43,51,.6); width: 300px; z-index: 99;
+.statDetail{ position: absolute; right: 14px; top: 10px; height: 310px; background-color: rgba(32,43,51,.6); width: 300px; z-index: 99;
 overflow: hidden;}
 
 .addressParent{ position: relative;}

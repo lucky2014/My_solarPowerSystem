@@ -39,7 +39,8 @@ define(function(require, exports, module) {
 
                     //------------------组件发电详情---------------------
                     var chartType = $("#componentTab dd.on").attr("data-value");
-                    var time2 = $("#componentDatePicker input:visible").attr("realvalue");
+                    var time2 = $("#datePicker"+chartType+"_1").val();
+                    //console.log(chartType+"==="+time2);
                     SPcomponentEnergyListApp.dateTypeChange(chartType, stationId, time2);
                 });
 

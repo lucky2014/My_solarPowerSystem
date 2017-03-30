@@ -51,8 +51,9 @@ define(function(require, exports, module) {
 
                 //隔120秒后播放大图
                 setTimeout(function(){
-                    location.href = "swiperBig.html?stationId="+$("#defaultStation").attr("stationId")+"&name="+setup.ToUnicode($("#defaultStation").html());
-                },160000);
+                    var isBig = ($(".slideBt").hasClass("big")) ?  1 : 0;
+                    location.href = "swiperBig.html?stationId="+$("#defaultStation").attr("stationId")+"&name="+setup.ToUnicode($("#defaultStation").html())+"&isBig="+isBig;
+                },120000);
             });
 
             
@@ -72,7 +73,7 @@ define(function(require, exports, module) {
         },
         readerGauge: function(stationId){ //用作实时刷新用刷新
             var me = this;
-            setup.commonAjax("getStationDateil", setup.getParams({
+            setup.commonAjax("getStationDetail", setup.getParams({
                 stationId: stationId
             }), function(msg){
                 guageApp.init(msg, "myGauge", "myPolar");
@@ -83,9 +84,9 @@ define(function(require, exports, module) {
 
     var wHeight = $(window).height();
     if(wHeight>900){
-        $(".chartsParent").css({"height":"360px", width: "100%"});
+        $(".chartsParent").css({"height":"360px","min-width":"444px", width: "100%"});
     }else{
-        $(".chartsParent").css({"height":"320px", width: "100%"});
+        $(".chartsParent").css({"height":"320px","min-width":"444px", width: "100%"});
     }
 
 

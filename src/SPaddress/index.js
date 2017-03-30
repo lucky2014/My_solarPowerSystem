@@ -24,46 +24,10 @@ define(function(require, exports, module) {
 
             var w = $(window).width();
             if(w<1025){
-                $("#powerMeter .sum span.dBlock").css({
-                    "padding-left": 0
-                });
-                $(".infoWrap.myGaugeParent").css({
-                     height: "280px"
-                });
-                $("#totalSum li").css({
-                     height: "249px"
-                });
-                $("#saveSum li").css({
-                     height: "106px"
-                });
-                $(".statDetail").css({
-                    right: "14px"
-                });
-                $(".sum").css({
-                    bottom: "5px"
-                });
                 $(".dateTab").css({
                     width: "150px"
                 });
             }else{
-                $("#powerMeter .sum span.dBlock").css({
-                    "padding-left": "10px"
-                });
-                $(".infoWrap.myGaugeParent").css({
-                     height: "260px"
-                });
-                $("#totalSum li").css({
-                     height: "229px"
-                });
-                $("#saveSum li").css({
-                     height: "96px"
-                });
-                $(".statDetail").css({
-                    right: "14px"
-                });
-                $(".sum").css({
-                    bottom: "10px"
-                });
                 $(".dateTab").css({
                     width: "200px"
                 });

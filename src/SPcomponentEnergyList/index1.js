@@ -105,7 +105,7 @@ var componentApp = {
                         channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)+"W");
                         dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
                     }
-                    stdPower.push({value: v.stdPower/1000});
+                    stdPower.push({value: v.stdPower/1000,cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0});
                 });
 
                 for(var i=0; i<len; i++){
@@ -340,126 +340,127 @@ var componentApp = {
         myline.setOption(defaultOption);
         setupApp.commonAjax("listComponentEnergy", setupApp.getParams(params), function(msg){
             $(".componentMask").hide();
-            if(msg && msg.length>0){
-                var invName = [];
-                var dataBase = [[],[],[],[]];
-                var series = [];
-                var all = 0;
-                var avgEnergy = [];
-                var len = msg.maxInvLength;
-                $.each(msg.listCmpCharts, function(i,v){
-                    invName.push({value:v.invName});
+            
+            if(msg && msg.listCmpCharts.length>0){
+                    var invName = [];
+                    var dataBase = [[],[],[],[]];
+                    var series = [];
+                    var all = 0;
+                    var avgEnergy = [];
+                    var len = msg.maxInvLength;
+                    $.each(msg.listCmpCharts, function(i,v){
+                        invName.push({value:v.invName});
 
-                    var channleObj = [];
-                    for(var j=0; j< len; j++){
-                        var ord = j+1;
-                        ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
-                        channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
-                        dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
-                        
-                        all += ((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000;
+                        var channleObj = [];
+                        for(var j=0; j< len; j++){
+                            var ord = j+1;
+                            ord = "<span class='"+ me.colorRet[ord-1] +"'>通道"+ord+"</span>";
+                            channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)+"Wh");
+                            dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
+                            
+                            all += ((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000;
+                        }
+                        avgEnergy.push({value: v.avgEnergy/1000,cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0});
+                    });
+                    all = me.formatterData(all, "kWh", 1).num + me.formatterData(all, "kWh", 1).unit;
+
+                    for(var i=0; i<len; i++){
+                        if(dataBase[i].length != 0){
+                            series.push({
+                                type: 'bar',
+                                itemStyle: {
+                                    normal: {color: me.color[i]}
+                                },
+                                name:'发电量',
+                                data: dataBase[i],
+                            });
+                        }
                     }
-                    avgEnergy.push({value: v.avgEnergy/1000});
-                });
-                all = me.formatterData(all, "kWh", 1).num + me.formatterData(all, "kWh", 1).unit;
 
-                for(var i=0; i<len; i++){
-                    if(dataBase[i].length != 0){
+                    if(dateType == 2){
                         series.push({
-                            type: 'bar',
+                            type: 'line',
                             itemStyle: {
-                                normal: {color: me.color[i]}
+                                normal: {color: '#f5e105'}
                             },
-                            name:'发电量',
-                            data: dataBase[i],
+                            name:'平均发电量',
+                            data: avgEnergy
                         });
                     }
-                }
 
-                if(dateType == 2){
-                    series.push({
-                        type: 'line',
-                        itemStyle: {
-                            normal: {color: '#f5e105'}
-                        },
-                        name:'平均发电量',
-                        data: avgEnergy
-                    });
-                }
-
-                var option = {
-                    title: {
-                        text: titleType+"发电量",
-                        left: "center",
-                        textBaseline: "top",
-                        textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                            fontWeight: 'normal',
-                            fontSize: 16,
-                            color: '#27bb77',
-                        },
-                        subtext: all,
-                        padding: [6,0,0,0]
-                    },
-                    dataZoom: me.dataZoom(msg),
-                    tooltip : {
-                        trigger: 'axis',
-                        formatter : function (params) {
-                            var str = "";
-                            for(var i=0; i<params[0].data.channleObj.length; i++){
-                                str += params[0].data.channleObj[i]+"<br />";
-                            }
-
-                            for(var i=0;i<params.length;i++){
-                                if(params[i].seriesName == "平均发电量"){
-                                    str += "平均发电量："+ format((params[i].value*1000).toFixed(0))+"Wh";
-                                }
-                            }
-                            str = "逆变器名称："+params[0].name + '<br />'+ str ;
-                            return str;
-                        },
-                        backgroundColor:"#357a69",
-                        borderColor: "#1fd1cb",
-                        borderWidth: 1,
-                        enterable: true
-                    },
-                    xAxis : {
-                        data : invName,
-                        type : 'category',
-                        name:'',
-                        nameGap:1,
-                        boundaryGap : true,
-                        axisLine: {
-                            lineStyle: {
-                                color: ['#09787d']
-                            }
-                        },
-                        triggerEvent: true
-                    },
-                    yAxis : [
-                        {
-                            type : 'value',
-                            name: "kWh",
-                            nameGap: 5,
-                            splitLine:{
-                                show: true,
-                                interval: "auto",
-                                lineStyle: {
-                                    color: ['#313b42']
-                                }
+                    var option = {
+                        title: {
+                            text: titleType+"发电量",
+                            left: "center",
+                            textBaseline: "top",
+                            textStyle: { // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontWeight: 'normal',
+                                fontSize: 16,
+                                color: '#27bb77',
                             },
+                            subtext: all,
+                            padding: [6,0,0,0]
+                        },
+                        dataZoom: me.dataZoom(msg),
+                        tooltip : {
+                            trigger: 'axis',
+                            formatter : function (params) {
+                                var str = "";
+                                for(var i=0; i<params[0].data.channleObj.length; i++){
+                                    str += params[0].data.channleObj[i]+"<br />";
+                                }
+
+                                for(var i=0;i<params.length;i++){
+                                    if(params[i].seriesName == "平均发电量"){
+                                        str += "平均发电量："+ format((params[i].value*1000).toFixed(0))+"Wh";
+                                    }
+                                }
+                                str = "逆变器名称："+params[0].name + '<br />'+ str ;
+                                return str;
+                            },
+                            backgroundColor:"#357a69",
+                            borderColor: "#1fd1cb",
+                            borderWidth: 1,
+                            enterable: true
+                        },
+                        xAxis : {
+                            data : invName,
+                            type : 'category',
+                            name:'',
+                            nameGap:1,
+                            boundaryGap : true,
                             axisLine: {
                                 lineStyle: {
                                     color: ['#09787d']
                                 }
+                            },
+                            triggerEvent: true
+                        },
+                        yAxis : [
+                            {
+                                type : 'value',
+                                name: "kWh",
+                                nameGap: 5,
+                                splitLine:{
+                                    show: true,
+                                    interval: "auto",
+                                    lineStyle: {
+                                        color: ['#313b42']
+                                    }
+                                },
+                                axisLine: {
+                                    lineStyle: {
+                                        color: ['#09787d']
+                                    }
+                                }
                             }
-                        }
-                    ],
-                    series :  series
-                };
+                        ],
+                        series :  series
+                    };
 
-                option = $.extend({}, defaultOption, option);
-                myline.setOption(option);
-                me.onclickFn(myline,msg);
+                    option = $.extend({}, defaultOption, option);
+                    myline.setOption(option);
+                    me.onclickFn(myline,msg);
             }else{
                 var mylineNull = echarts.init(document.getElementById('componentPowerSum'));
                 mylineNull.setOption(defaultOption);
@@ -635,16 +636,17 @@ var componentApp = {
             $("#mask, .dialogWrap").show();
 
             //判断点击的是不是横坐标轴
-            $.each(msg, function(i,v){
-                if(v.invName == params.value){
-                    me.readerDialogFn(v.cmpCharts[0].cmpId, v.invId)
+            $.each(msg.listCmpCharts, function(i,v){
+                if(v.invName == params.value || v.invName == params.name){
+                    me.readerDialogFn(v.cmpCharts[0].cmpId, v.invId);
+                    return;
                 }
             });
 
-            if(params.componentType != "markLine" && params.componentType != "xAxis"){
+            if(params.componentType != "markLine" && params.componentType != "xAxis" && params.seriesName != "标称功率" && params.seriesName != "平均发电量"){
                 me.readerDialogFn(params.data.cmpId, params.data.invId);
+                return;
             }
-
         });
 
         $(".close").click(function(){
@@ -653,6 +655,7 @@ var componentApp = {
         });
     },
     readerDialogFn: function(cmpId, invId){ //渲染弹框
+        console.log(invId);
         var me = this;
         //电站组件详情
         me.getComponentInfo(cmpId, invId);

@@ -16,8 +16,8 @@ define(function(require, exports, module) {
             var ww = $(window).width()*0.37;
             var wHeight = $(window).height();
 
-            $("#swiperIndex .swiper-wrapper").css("width",ww*len+"px");
-            $("#swiperIndex .swiper-wrapper img").css("width",ww+"px");
+            //$("#swiperIndex .swiper-wrapper").css("width",ww*len+"px");
+            //$("#swiperIndex .swiper-wrapper img").css("width",ww+"px");
 
             var wHeight = $(window).height();
             if(wHeight>900){

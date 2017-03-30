@@ -131,7 +131,7 @@ define(function(require, exports, module) {
                             channleObj.push(ord + "：" + format((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)+"W");
                             dataBase[j].push({value:((v.cmpCharts[j] && v.cmpCharts[j].power) ? v.cmpCharts[j].power : 0)/1000, cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0,channleObj: channleObj});
                         }
-                        stdPower.push({value: v.stdPower/1000});
+                        stdPower.push({value: v.stdPower/1000,cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0});
                     });
 
                     for(var i=0; i<len; i++){
@@ -377,7 +377,7 @@ define(function(require, exports, module) {
                             
                             all += ((v.cmpCharts[j] && v.cmpCharts[j].energy) ? v.cmpCharts[j].energy : 0)/1000;
                         }
-                        avgEnergy.push({value: v.avgEnergy/1000});
+                        avgEnergy.push({value: v.avgEnergy/1000,cmpId: (v.cmpCharts[j] && v.cmpCharts[j].cmpId) ? v.cmpCharts[j].cmpId : 0, invId: (v.cmpCharts[j] && v.cmpCharts[j].invId) ? v.cmpCharts[j].invId : 0});
                     });
                     all = formatData(all, "kWh", 1).num + formatData(all, "kWh", 1).unit;
 
@@ -644,7 +644,6 @@ define(function(require, exports, module) {
             });
         },
         onclickFn: function(myline,msg){ //点击组件发电详情
-            console.log(JSON.stringify(msg,null,2));
             var me = this;
             myline.on("click", function(params){
                 $("body").css({overflow: "hidden",height:"100%"});
@@ -653,13 +652,15 @@ define(function(require, exports, module) {
 
                 //判断点击的是不是横坐标轴
                 $.each(msg.listCmpCharts, function(i,v){
-                    if(v.invName == params.value){
-                        me.readerDialogFn(v.cmpCharts[0].cmpId, v.invId)
+                    if(v.invName == params.value || v.invName == params.name){
+                        me.readerDialogFn(v.cmpCharts[0].cmpId, v.invId);
+                        return;
                     }
                 });
 
-                if(params.componentType != "markLine" && params.componentType != "xAxis"){
+                if(params.componentType != "markLine" && params.componentType != "xAxis" && params.seriesName != "标称功率" && params.seriesName != "平均发电量"){
                     me.readerDialogFn(params.data.cmpId, params.data.invId);
+                    return;
                 }
 
             });
@@ -670,6 +671,7 @@ define(function(require, exports, module) {
             });
         },
         readerDialogFn: function(cmpId, invId){ //渲染弹框
+            console.log(invId);
             var me = this;
             //电站组件详情
             me.getComponentInfo(cmpId, invId);

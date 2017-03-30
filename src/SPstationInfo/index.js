@@ -1,7 +1,6 @@
 define(function(require, exports, module) {
     var $ = require("jquery");
    	var setup = require("setup");
-    	require('src/SPstationInfo/index.css');
         require('src/SPrealTimeStat/index.css');
         require("my97DatePicker");
     var echarts = require("echarts");

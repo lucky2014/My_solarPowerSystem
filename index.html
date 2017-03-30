@@ -103,8 +103,8 @@
         <!--仪表这一行-->
         <div class="pmParent">
             <div class="powerMeter">
-                <div id="myGauge" style="width:100%; height:226px;"></div>
-                <div id="myPolar" style="width:100%; height:180px;margin-top:5px;"></div>
+                <div id="myGauge" style="min-width:222px; width:100%; height:226px;"></div>
+                <div id="myPolar" style="min-width:222px; width:100%; height:180px;margin-top:5px;"></div>
                 <div id="refreshTime" class="refreshTimeIndex"></div>
                 <div class="defaultLabel"><span>0%</span><span>100%</span></div>
                 <div class="percentage percentageIndex"></div>
@@ -139,7 +139,7 @@
 
         <!--折线图这一行-->
         <div class="chartsParent">
-            <div id="myline" class="indexLine" style="width:100%; height:320px; margin-top:14px;"></div>
+            <div id="myline" class="indexLine" style="min-width:444px; width:100%; height:320px; margin-top:14px;"></div>
             <div class="realTimeEnpty">暂无数据！</div>
 
             <!--日期选择-->
@@ -156,16 +156,16 @@
 
             <div class="datePickerParent" style="display:none;" id="chartsDatePicker">
                 <label>日期</label>
-                <input id="datePicker1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                <input id="datePicker1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',onpicked: function(){
                     onpicking(this)
                 }})"/>
-                <input id="datePicker2" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked: function(){
+                <input id="datePicker2" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',onpicked: function(){
                     onpicking(this)
                 }})"/>
-                <input id="datePicker3" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM',onpicked: function(){
+                <input id="datePicker3" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M', onpicked: function(){
                     onpicking(this)
                 }})"/>
-                <input id="datePicker4" type="text" onClick="WdatePicker({dateFmt:'yyyy',onpicked: function(){
+                <input id="datePicker4" type="text" onClick="WdatePicker({dateFmt:'yyyy',maxDate:'%y',onpicked: function(){
                     onpicking(this)
                 }})"/>
                 <img id="dateImg" src="src/imgs/date.png" />
@@ -190,7 +190,15 @@
         <h2>历史版本记录<a class="versionClose"><img src="src/imgs/closeBlank.png" /></a></h2>
         <div class="content">
         <dl>
-            <dt class="red">最新版本 V1.0.6</dt>
+            <dt class="red">最新版本 V1.0.7</dt>
+            <dd>
+                <span>1、</span>组件发电详情图表选择日期数据不显示问题。<br />
+                <span>2、</span>电站基本详情图表：功率选项数据显示不对问题。<br />
+                <span>3、</span>日期选项，增加不能超过今天的限制。不能小于电站注册日的限制需要接口配合，目前未添加。<br />
+            </dd>
+        </dl>
+        <dl>
+            <dt class="red">V1.0.6</dt>
             <dd>
                 <span>1、</span>大屏地图：<br />
                     （1）百度地图采用白色底，与白底配合弹框依然采用白色底（直角，与左边统计相匹配）、透明。<br />
