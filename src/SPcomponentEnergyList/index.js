@@ -308,9 +308,9 @@ define(function(require, exports, module) {
                     $("#datePicker3_1").val(date.slice(0,7));
                 }
 
-                var date = date || str +"-01";
+                var date = date && date.slice(0,7)+"-01" || str +"-01";
                 var params = me.getLineParams(stationId, dateType, date);
-
+                //console.log(JSON.stringify(params,null,2))
                 titleType = "月" ;
 
                 me.renderBar(dateType, params, titleType);
@@ -327,7 +327,7 @@ define(function(require, exports, module) {
                     $("#datePicker4_1").val(date.slice(0,4));
                 }
 
-                var date = date || me.getFullYear()+"-01-01";
+                var date = date && date.slice(0,4)+"-01-01" || me.getFullYear()+"-01-01";
                 var params = me.getLineParams(stationId, dateType, date);
 
                 titleType = "年" ;
@@ -356,7 +356,6 @@ define(function(require, exports, module) {
             var myline = echarts.init(document.getElementById('componentPowerSum'));
             myline.setOption(defaultOption);
             setup.commonAjax("listComponentEnergy", setup.getParams(params), function(msg){
-                //console.log(JSON.stringify(msg,null,2));
                 $(".componentMask").hide();
                 if(msg && msg.listCmpCharts.length>0){
                     var invName = [];
