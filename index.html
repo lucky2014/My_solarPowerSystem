@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>光伏发电并网系统监控</title>
+    <link rel="stylesheet" href="src/css/common.css" />
+</head>
+<body>
+	<div class="header">
+        <div class="logo"><img src="src/imgs/logo.png" height="44" /></div>
+        <ul class="h_user">
+            <li class="lang hide">语言</li>
+            <li id="exit"><img src="src/imgs/exit.png" width="56%" /></li>
+            <li id="userInfo">欢迎您！</li>
+        </ul>   
+    </div>
+    <div class="userInfo">
+        <ul>
+            <li><label>姓名：</label><span id="name"></span></li>
+            <li><label>邮箱：</label><span id="email"></span></li>
+            <li><label>地址：</label><span class="long" id="address"></span></li>
+            <li><label>电话：</label><span id="telphone"></span></li>
+            <li><label>最后登录IP：</label><span id="loginIp"></span></li>
+            <li><label>最后登录时间：</label><span class="short" id="loginTime"></span></li>
+            <li><label>签名：</label><span class="xlong" id="mark"></span></li>
+        </ul>
+        <i id="triangle-up1"></i><i id="triangle-up2"></i>
+    </div>
+
+    <div class="wrap big">
+    	<div class="nav">
+         <ul>
+            <li>
+                <img src="src/imgs/nav1.png" />
+                <span>总发电量<i>单位(<em id="msuEnergyUnit"></em>)</i></span>
+                <h4 id="msuEnergy"></h4>
+            </li>
+            <li>
+                <img src="src/imgs/nav2.png" />
+                <span>预计收益<i>单位(<em id="msuIncomeUnit"></em>)</i></span>
+                <h4 id="msuIncome"></h4>
+            </li>
+            <li>
+                <img src="src/imgs/nav3.png" />
+                <span>总装机容量<i>单位(<em id="msuCapacityUnit"></em>)</i></span>
+                <h4 id="msuCapacity"></h4>
+            </li>
+            <li>
+                <img src="src/imgs/nav4.png" />
+                <span>总电站数<i>单位(<em id="msuStationNumUnit"></em>)</i></span>
+                <h4 id="msuStationNum"></h4>
+            </li>
+        </ul>   
+        </div>
+
+        <div class="mapParent"><div class="map" id="myMap" style="width:100%; height:640px;"></div></div>
+
+        <!--地图旁边的统计-->
+        <div class="barStat">
+            <ul>
+                <li class="li0">
+                    <img src="src/imgs/co2.png" />
+                    <span>CO2减排</span>
+                    <h4 id="msuCo2">&nbsp;</h4>
+                </li>
+                <li class="li1">
+                    <img src="src/imgs/plant.png" />
+                    <span>植树造林</span>
+                    <h4 id="msuAff"></h4>
+                </li>
+                <li class="li2">
+                    <img src="src/imgs/odometer.png" />
+                    <span>行驶里程</span>
+                    <h4 id="msuDistance"></h4>
+                </li>
+                <li class="li3">
+                    <img src="src/imgs/coal.png" />
+                    <span>节约标准煤</span>
+                    <h4 id="msuSavingCoal"></h4>
+                </li>
+            </ul>
+        </div>
+        
+
+        <div class="slideBt big"></div>
+    </div>
+
+    <div class="wrapRight">
+        <!--图片滚动-->
+        <div id="swiperIndex"> </div>
+
+        <!--发电站统计下拉-->
+        <div class="pwsStat"></div>
+
+        <!--天气预报这一列-->
+        <div class="bannerSide">
+            <!--天气预报-->
+            <div class="weatherIndex"></div>
+            <!--地址栏-->
+            <div class="addressParent"></div>
+        </div>
+
+        <!--仪表这一行-->
+        <div class="pmParent">
+            <div class="powerMeter">
+                <div id="myGauge" style="min-width:222px; width:100%; height:226px;"></div>
+                <div id="myPolar" style="min-width:222px; width:100%; height:180px;margin-top:5px;"></div>
+                <div id="refreshTime" class="refreshTimeIndex"></div>
+                <div class="defaultLabel"><span>0%</span><span>100%</span></div>
+                <div class="percentage percentageIndex"></div>
+            </div>
+
+            
+            <div class="oneStationStat">
+                <ul>
+                    <li class="li0" id="li0">
+                        <div><img src="src/imgs/co21.png" /></div>
+                        <span>CO2减排</span>
+                        <h4 id="s_msuCo2"></h4>
+                    </li>
+                    <li class="li1">
+                        <div><img src="src/imgs/tree.png" /></div>
+                        <span>植树造林</span>
+                        <h4 id="s_msuAff"></h4>
+                    </li>
+                    <li class="li2">
+                        <div><img src="src/imgs/speed.png" /></div>
+                        <span>行驶里程</span>
+                        <h4 id="s_msuDistance"></h4>
+                    </li>
+                    <li class="li3">
+                        <div><img src="src/imgs/fire.png" /></div>
+                        <span>节约标准煤</span>
+                        <h4 id="s_msuSavingCoal"></h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--折线图这一行-->
+        <div class="chartsParent">
+            <div id="myline" class="indexLine" style="min-width:444px; width:100%; height:320px; margin-top:14px;"></div>
+            <div class="realTimeEnpty">暂无数据！</div>
+
+            <!--日期选择-->
+            <div class="dateTab">
+                <dl>
+                    <dd data-value="1" class="on">功率</dd>
+                    <dd data-value="2">日</dd>
+                    <dd data-value="3">月</dd>
+                    <dd data-value="4">年</dd>
+                    <dd data-value="5">总</dd>
+                </dl>
+            </div>
+            
+
+            <div class="datePickerParent" style="display:none;" id="chartsDatePicker">
+                <label>日期</label>
+                <input id="datePicker1" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <input id="datePicker2" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <input id="datePicker3" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M', onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <input id="datePicker4" type="text" onClick="WdatePicker({dateFmt:'yyyy',maxDate:'%y',onpicked: function(){
+                    onpicking(this)
+                }})"/>
+                <img id="dateImg" src="src/imgs/date.png" />
+            </div>
+        </div>
+    </div>
+
+	<div class="footer"></div>
+
+    <div id="mask"></div>
+    <div id="dialogExit">
+        <div class="dialogHeader">提示信息<a class="close"><img src="src/imgs/close.png" /></a></div>
+        <div class="dialogExitCon">您确定要退出吗？</div>
+        <div class="exitButton">
+            <button class="cancel">取消</button>
+            <button class="active">确定</button>
+        </div>
+    </div>
+
+
+    <div class="versionRecord hide">
+        <h2>历史版本记录<a class="versionClose"><img src="src/imgs/closeBlank.png" /></a></h2>
+        <div class="content">
+        <dl>
+            <dt class="red">最新版本 V1.0.8</dt>
+            <dd>
+                <span>1、</span>大图显示的新增监听事件：当没有鼠标动作时，大屏图片才显示出来！<br />
+                <span>2、</span>大屏图片返回按钮：重新设计过了，加大，明显一点。<br />
+                <span>3、</span>地图提示框支持换行。<br />
+                <span>4、</span>返回时保持地图显示状态：展开或收缩。<br />
+            </dd>
+        </dl>
+        <dl>
+            <dt>最新版本 V1.0.7</dt>
+            <dd>
+                <span>1、</span>组件发电详情图表选择日期数据不显示问题。<br />
+                <span>2、</span>电站基本详情图表：功率选项数据显示不对问题。<br />
+                <span>3、</span>日期选项，增加不能超过今天的限制。不能小于电站注册日的限制需要接口配合，目前未添加。<br />
+            </dd>
+        </dl>
+        <dl>
+            <dt class="red">V1.0.6</dt>
+            <dd>
+                <span>1、</span>大屏地图：<br />
+                    （1）百度地图采用白色底，与白底配合弹框依然采用白色底（直角，与左边统计相匹配）、透明。<br />
+                    （2）增加功能：鼠标移到标识物弹框出来（右边的电站信息没变），移开弹框不隐藏，防止将点击的弹框隐藏掉。点击时弹框出来，右边电站信息相应变化。<br />
+                    （3）弹框增加字段：地址，位置在第三行。<br />
+                    （4）增加显示功能：地图放大时，具体的路名显示出来。<br />
+                    （5）增加地图最小放大倍数为8。<br />
+                <span>2、</span>组件发电详情图表：<br />
+                    （1）修复了没有发电的通道也显示发电量的问题。<br />
+                    （2）功率和年选项时，SMU项靠右对齐。<br />
+                <span>3、</span>修复脚部版权问题。<br />
+                <span>4、</span>电站详情页：增加收缩展开按钮，收缩天气和电站基本详情。<br />
+                <span>5、</span>所有图表：修复了电站图表单位大小写不统一的情况。<br />
+                <span>6、</span>首页新需求：<br />
+                    （1）首页显示120秒后，banner大图自动展开播放大图，有返回按钮。<br />
+                    （2）大图播放间隔30秒。<br />
+                    （3）大图播放一遍后，返回首页。<br />
+            </dd>
+        </dl>
+        <dl>
+            <dt>V1.0.5</dt>
+            <dd>
+                <span>1、</span>大屏地图采用百度地图，电站表识物的颜色根据右边码表值的颜色渐变！点击表识物，出来提示框，右边电站详情跟着相应改变。点击提示框右箭头，进去相应的电站详情页面。<br />
+                <span>2、</span>电站概况的行驶里程单位原来大写KM,目前改成小写km。<br />
+                <span>3、</span>单个电站发电详情图表：<br />
+                    （1）标题统一：功率、日发电量、月发电量、年发电量、总发电量，标题不再根据右边日期的选择而加上相应的日期，发电量保留整数值。<br />
+                    （2）提示框信息：增加了相应的日期字段，发电量值取整。<br />（3）单位功率值修改为kW，原来Wh。竖轴数值大于10000时，采用科学计数法显示。<br />（4）功率的颜色与码表图数值相对应。<br />
+                <span>4、</span>在脚部版权位置增加版本号信息。<br />
+                <span>5、</span>组件发电详情图表：<br />
+                （1）原来以组件为横轴，现在改成逆变器，数轴显示相应的通道，通道分颜色显示。提示框也分颜色显示。<br />
+                （2）横轴可以点击。弹框默认显示第一条组件的信息。<br />
+                （3）日期处理：选择日：如果不到晚上20点，默认取前一天数据，因为数据还没返回来；选择月：如果当前时间是1，那么默认选择前一个月的数据；选择年：如果当前时间是1月1日，那么默认取前一年的数据。<br />
+                <span>6、</span>组件通道详情：<br />
+                （1）挂载电站后面加SMU编号。通道颜色与下面图表的颜色相对应。<br />
+                （2）图表颜色改成黄色，与组件发电详情统一。<br />
+                （3）图表提示框字段增加了通道和日期字段。<br />
+                <span>7、</span>电站下拉列表选择：<br />
+                （1）原来鼠标移上去出来二级菜单的交互方式变成“点击”。<br />
+                （2）选择一级菜单的事件是“双击”。<br /></dd>
+        </dl>
+        <dl>
+            <dt>V1.0.4</dt>
+            <dd><span>1、</span>更新大屏地图展示界面。<br /><span>2、</span>更新大屏主界面电站信息和电站详情界面的实时发电功率报表，“实时”字段文本改为“功率”，实时发电功率添加日期控件按天为单位选择。<br /><span>3、</span>更新电站详情界面的组件发电功率报表，“实时”字段文本改为“功率”，实时发电功率添加日期控件按天为单位选择。<br /><span>4、</span>修改大屏展示主界面和电站详情界面码表的百分比精确到整数。<br /><span>5、</span>调整电站发电详情报表和主界面电站发电详情报表数值按单位换算。<br /><span>6、</span>修改主界面电站选择菜单、电站详情界面电站子集按电站名称数字进行顺序排列。<br /><span>7、</span>修改电站详情页面组件发电详情报表，将组件曲线图换成单个柱状图。<br /><span>8、</span>修改逆变器页面字段位置及纠正字段单位格式，将字段“状态”跟“PLC通讯”调换位置，电网频率单位改为“Hz”，字段“温度”和“上报时间”互换。</dd>
+        </dl>
+        <dl>
+            <dt>V1.0.3</dt>
+            <dd><span>1、</span>修改电站详情组件详情报表smu选项。<br /><span>2、</span>优化逆变器信息页面数据输出性能及模块编号显示问题。<br /><span>3、</span>修改逆变器页面温度为负数问题。<br /><span>4、</span>优化电站详情界面组件发电详情的平均值显示问题。<br /><span>5、</span>优化逆变器页面报表默认信息展示。</dd>
+        </dl>
+        <dl>
+            <dt>V1.0.2</dt>
+            <dd><span>1、</span>增加电站详情页面<br /><span>2、</span>增加逆变器详情页面<br /><span>3、</span>优化大屏主界面数值换算<br /><span>4、</span>优化大屏主界面单个电站详情天气轮播时间（改为5秒轮播）、电站详情图片显示比例（按照16:9比例展示）。<br /><span>5、</span>优化大屏主界面单个电站详情码表展示。<br /><span>6、</span>纠正大屏主界面单个电站统计报表显示单位。<br /><span>7、</span>优化大屏主界面操作刷新体验，将合计的数据和地图面板分开刷新。 </dd>
+        </dl>
+        <dl>
+            <dt>V1.0.1</dt>
+            <dd class="last"><span>1、</span>完成大屏主界面开发并确定总体数据算法及环境效益数据算法。<br /><span>2、</span>完成大屏主界面开发单个电站详情基本信息展示，并确定单个电站发电功率报表数据输出要求。<br /><span>3、</span>完善大屏主界面个人基本信息展示并在用户登录时插入最后登录时间和登录IP。<br /><span>4、</span>确定并优化大屏主界面设计效果图和大屏主界面单个电站展示效果图（多次版本迭代）。</dd>
+        </dl>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="src/common.lib/jquery/jquery-1.8.3.min2.js"></script>
+    <script type="text/javascript" src="src/common.lib/echarts1.js"></script>
+    <script type="text/javascript" src="src/common.lib/DES/CryptoJS1.js"></script>
+    <script type="text/javascript" src="src/common.lib/MD5/jquery.md51.js"></script>
+    <script type="text/javascript" src="src/common.lib/setup/setup1.js"></script>
+    <script type="text/javascript" src="src/SPrealTimeStat/defaultOption1.js"></script>
+    <script type="text/javascript" src="src/SPrealTimeStat/index1.js"></script>
+    <script type="text/javascript" src="src/common.lib/sea.js"></script>
+    <script type="text/javascript" src="src/common.lib/seajs-text/seajs-text-1.1.1/seajs-text.js"></script>
+    <script type="text/javascript" src="src/config.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EySOWSll3GsBdhrvMxEf2Gpn"></script>
+    <script>
+        seajs.use("src/common.lib/sea_css", function(){
+            seajs.use("src/indexBaiduMap/index");
+        });
+    </script>
+    
+    <script>
+    function onpicking(obj){
+        var date = $(obj).val();
+        var len = date.length;
+        if(len == 4){
+            date = date + "-01-01";
+        }else if(len == 7){
+            date = date + "-01";
+        }else{
+            date = date;
+        }
+        var dateType = $(".dateTab dd.on").attr("data-value");
+        var stationId = (sessionStorage.getItem("stationId")) ? sessionStorage.getItem("stationId") : $("#defaultStation").attr("stationId");
+        chartsSum.dateTypeChange(dateType, stationId, date);
+    }
+    </script>
+
+    <style>
+    .BMap_pop{ opacity: 0.78;}
+    .BMap_pop .detail{ float: right; margin-top: -6px;}
+    .BMap_bubble_content{ line-height: 24px;}
+    </style>
+</body>
+</html>

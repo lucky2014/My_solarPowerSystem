@@ -1,0 +1,19 @@
+*{ margin: 0; padding: 0; font-family: 'microsoft yahei'; font-size: 14px; list-style: none;}
+.hide{ display: none;}
+
+/*仪表*/
+#powerMeter{ float: left; width: 28%; position: relative;  color: #fff;}
+#myPolar,#myPolarInfo{ position: absolute; left: 0; top: 0}
+.sum{ position: absolute; bottom: 5px; text-align: center; color: #249061; font-size: 14px; 
+left: 0; width: 28%;}
+.sum span{ color: #23f8fd; font-size: 18px; display: inline-block;}
+.sum span.dBlock{ padding-left: 0; color: #249061; font-size: 14px; display: block;}
+.sum span.dBlock span{ color: #23f8fd; font-size: 18px;}
+
+#refreshTime{left: 10%; position: absolute; top: 147px; width: 80%; text-align: center; color: #8698ae; font-size: 12px;  color: #fff;}
+#refreshTime.refreshTimeIndex{ top: 130px;}
+.defaultLabel{ position: absolute; bottom: 26px; width: 79%; text-align: ceter; left: 10%;}
+.defaultLabel span{ color: #8698ae; display: inline-block; font-size: 12px; width: 49%; text-align: center;}
+.percentage{ position: absolute; bottom: 50px; width: 99%; text-align: center; left: 0; font-size: 20px; color: #23f8fd}
+.percentage.percentageIndex{ bottom: 40px;}
+
