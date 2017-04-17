@@ -8,19 +8,16 @@ define(function(require,exports,module){
 
 	// 百度地图API功能
 	var map = new BMap.Map("myMap",{minZoom:4,maxZoom:13});    // 创建Map实例
-
+	////地图的高度变化
 	var vHeight = $(window).height(); //屏幕高度，初始化时需要屏幕的高度
-	//获取地图的高度
-	$(".mapParent").css("height", vHeight-210);
-
 	if(vHeight>900){
-		$("#myMap").css({"left":0,top: 0,height:"790px"});
-		$(".mapParent").css("height", vHeight-210);
+		$(".mapParent").css({height: "790px"});
 	}else{
-		$("#myMap").css({"left":0,top: "-100px"});
-		$(".mapParent").css("height", vHeight-190);
+		var h = $(".wrapRight").height()-70;
+		$(".mapParent").css({height: h});
 	}
-	
+	$("#myMap").css({"left":0,top: 0});
+
 	//渲染头部信息
 	var userName = setup.getQueryString("userName");
 	var userName1 = sessionStorage.getItem("userName");
@@ -114,7 +111,7 @@ define(function(require,exports,module){
 					  enableMessage:false,//设置允许信息窗发送短息
 					  offset: new BMap.Size(-2,-9)
 					}
-					var infoWindow = new BMap.InfoWindow("<strong>"+ v.name + "</strong><br />" +v.energy+"kW/"+v.power+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + setup.ToUnicode(v.name) + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
+					var infoWindow = new BMap.InfoWindow("<strong>"+ v.name + "</strong><br />" +(v.power/1000).toFixed(2)+"kW/"+v.capacity+"kWp<br />"+v.location+"<a href=stationInfo.html?stationId=" + v.id + "&name=" + setup.ToUnicode(v.name) + " class='detail'><img src='src/imgs/r.png' /></a>", opts);  // 创建信息窗口对象 
 					marker.addEventListener("mouseover", function(){          
 						map.openInfoWindow(infoWindow,point); //开启信息窗口配合
 					});	

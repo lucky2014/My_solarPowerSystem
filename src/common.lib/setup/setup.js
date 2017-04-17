@@ -4,8 +4,8 @@ define(function(require, exports, module) {
     var CryptoJS = require("CryptoJS");
 
     var setupApp = {
-        url: "http://shmily480.vicp.net:8880/photovoltaicServer/service.do",
-        //url: "http://192.168.2.55:8083/photovoltaicServer/service.do",
+        url: "http://121.42.167.167:8080/photovoltaicServer/service.do",
+        //url: "http://shmily480.vicp.net:8880/photovoltaicServer/service.do",
         desKey: "2017@gfd",
         md5Key: "2017@hzlq",
         getQueryString: function(name) { //获取URL的参数，isEit

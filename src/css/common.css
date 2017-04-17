@@ -8,7 +8,7 @@ body{ background: #202b33; min-width: 1200px; position: relative;}
 img{ border: none;}
 /*右边*/
 .wrapRight{ position:absolute; left: 62%; top:64px; border-left: 1px solid #303a41; width: 37%; overflow: hidden;
-display: none; background: #202b33;}
+ background: #202b33;}
 
 .header{height: 40px; color: #fff; overflow: hidden; margin:13px 1% 7px; padding: 0 0 10px; border-bottom: 1px solid #303a41;}
 .header .logo, header .h_user{ float: left; width: 49%;}
